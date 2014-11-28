@@ -41,16 +41,46 @@ public class AnswersDAO extends SQLiteOpenHelper implements IAnswersDAO {}
 ```
 
 ####implement abstract methods
-####create constructor
+####create constructor and send Context object to super constructor
 ```java
     public ThingsDAO(Context context) {
 
         super(context, "app.db", null, 1);
     }
 ```
-####send Context object to super constructor in constructor
 ####define static fields for table name, primary key, and all fields in DTO
+```java
+
+    private static final String TABLE_NAME = "things";
+    private static final String PRIMARY_KEY = "id";
+
+    private static final String NAME = "name";
+    private static final String DATE = "date";
+
+```
+
 ####create populateObjectFromCursor() method
+```java
+
+    private ThingDTO populateObjectFromCursor(Cursor cursor) {
+
+        // create a new user object to hold our data.
+        ThingDTO dto = new ThingDTO();
+
+        // populate object with DTO fields
+        int id = cursor.getInt(cursor.getColumnIndex(PRIMARY_KEY) );
+        //String date = cursor.get(cursor.getColumnIndex(DATE));
+        String name = cursor.getString(cursor.getColumnIndex(NAME));
+
+        // populate the dto
+        dto.setId(id);
+        //dto.setDate(date);
+        dto.setName(name);
+
+        //
+        return dto;
+    }
+```
 ####Create onUpdate() method
 
 ###Make Service interface
