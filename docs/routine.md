@@ -144,12 +144,12 @@ public interface IThingsService {
 ```
 
 ###Make Service class and implement Service interface
-
+```java
 public class ThingsService implements IThingsService{
 
 
 }
-
+```
 ####Instantiate DAO object
 ```java
     IThingsDAO daoThings;
@@ -157,10 +157,15 @@ public class ThingsService implements IThingsService{
 ####Make a constructor for the service and require a context object
 ```java
     public ThingsService(Context ctx){
+    }
+
+```
+####Instantiate the DAO in the constructor
+```java
+    public ThingsService(Context ctx){
         daoThings = new ThingsDAO(ctx);
         things = daoThings.list();
     }
-
 ```
 
 ####Implement interface methods
