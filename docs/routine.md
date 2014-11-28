@@ -137,10 +137,10 @@ public class AnswersDAO extends SQLiteOpenHelper implements IAnswersDAO {}
 ```java
 
     @Override
-    public ArrayList<WordDTO> list() {
+    public ArrayList<QuestionDTO> list() {
 
         // Make a new ArrayList
-        ArrayList<WordDTO> words = new ArrayList<WordDTO>();
+        ArrayList<QuestionDTO> list = new ArrayList<QuestionDTO>();
 
         // Write the SQL query
         String sql  = "select * from " + TABLE_NAME;
@@ -153,18 +153,20 @@ public class AnswersDAO extends SQLiteOpenHelper implements IAnswersDAO {}
 
         // Loop for as long as the cursor is not after the last record
         while(!cursor.isAfterLast()) {
-            // populate the object from cursor
-            WordDTO dto = populateObjectFromCursor(cursor);
+            
+            // populate the object from the cursor
+            QuestionDTO dto = populateObjectFromCursor(cursor);
 
             // add the DTO to the collection of DTOs
-            words.add(dto);
+            list.add(dto);
 
             // Move the cursor to the next record
             cursor.moveToNext();
         }
         // Return the collection
-        return words;
+        return list;
     }
+    
 ```
     
 ####create populateObjectFromCursor() method
