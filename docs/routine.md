@@ -214,26 +214,40 @@ public class AnswersDAO extends SQLiteOpenHelper implements IAnswersDAO {}
 Reference: http://www.sqlite.org/datatype3.html
 ```java
 
-    @Override
-    public void onCreate(SQLiteDatabase sqLiteDatabase) {
-        //drop the table if it exists
-        this.onUpdate(sqLiteDatabase);
 
-        // define the schema.
+    @Override
+    public void onCreate(SQLiteDatabase db) {
+        //drop the table if it already exists
+        this.onUpdate(db);
+
+        // define the schema
         String schema = "CREATE TABLE "
                 + TABLE_NAME
                 + " ("
                 + PRIMARY_KEY
                 + " INTEGER PRIMARY KEY AUTOINCREMENT, "
-                + NAME
+                + WORD
                 + " TEXT, "
-                + DATE
+                + LETTERS
+                + " TEXT, "
+                + LENGTH
+                + " INTEGER, "
+                + BEGINS_WITH
+                + " TEXT, "
+                + ENDS_WITH
+                + " TEXT, "
+                + CATEGORY
+                + " TEXT, "
+                + LANGUAGE
+                + " TEXT, "
+                + DOLCH
                 + " TEXT );";
-
-        // create our table.
-        sqLiteDatabase.execSQL(schema);
+        
+        // create the table
+        db.execSQL(schema);
 
     }
+
 ```
 ####Leave onUpgrade method empty
 ```java
