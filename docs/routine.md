@@ -82,6 +82,50 @@ public class AnswersDAO extends SQLiteOpenHelper implements IAnswersDAO {}
     }
 ```
 ####Create onUpdate() method
+```java
+    public void onUpdate(SQLiteDatabase db) {
+
+        //Run a DROP IF EXISTS statement to drop the ACCOUNTS table.
+        //Invoke onCreate.
+
+        db.execSQL("DROP TABLE IF EXISTS '" + TABLE_NAME + "'");
+
+    }
+```
+
+####Implement onCreate method
+Reference: http://www.sqlite.org/datatype3.html
+```java
+
+    @Override
+    public void onCreate(SQLiteDatabase sqLiteDatabase) {
+        //drop the table if it exists
+        this.onUpdate(sqLiteDatabase);
+
+        // define the schema.
+        String schema = "CREATE TABLE "
+                + TABLE_NAME
+                + " ("
+                + PRIMARY_KEY
+                + " INTEGER PRIMARY KEY AUTOINCREMENT, "
+                + NAME
+                + " TEXT, "
+                + DATE
+                + " TEXT );";
+
+        // create our table.
+        sqLiteDatabase.execSQL(schema);
+
+    }
+```
+####Leave onUpgrade method empty
+```java
+
+    @Override
+    public void onUpgrade(SQLiteDatabase sqLiteDatabase, int i, int i2) {
+        // Empty method from SQLiteOpenHelper
+    }
+```
 
 ###Make Service interface
 ####Define methods to match UI buttons
