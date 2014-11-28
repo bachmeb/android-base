@@ -114,6 +114,57 @@ public class AnswersDAO extends SQLiteOpenHelper implements IAnswersDAO {}
     }
 ```
 
+
+####Implement update() method
+```java
+    @Override
+    public void update(WordDTO word) {
+
+    }
+```
+####Implment delete() method
+```java
+    @Override
+    public void delete(WordDTO word) {
+
+    }
+```
+
+####Implement list() method
+```java
+
+    @Override
+    public ArrayList<WordDTO> list() {
+
+        // Instantiate ArrayList
+        ArrayList<WordDTO> words = new ArrayList<WordDTO>();
+
+        // Write the SQL query
+        String sql  = "select * from " + TABLE_NAME;
+
+        // Execute the query
+        Cursor cursor = getReadableDatabase().rawQuery(sql, null);
+
+        // Call moveToFirst on the cursor object
+        cursor.moveToFirst();
+
+        // iterate over the cursor until it reaches the last row.
+        // notice the ! which negates true to false.
+        while(!cursor.isAfterLast()) {
+            // populate plant from cursor.
+            WordDTO w = populateObjectFromCursor(cursor);
+
+            // add to our collection.
+            words.add(w);
+
+            // move to the next result.
+            cursor.moveToNext();
+        }
+        return words;
+    }
+
+```
+    
 ####create populateObjectFromCursor() method
 ```java
 
