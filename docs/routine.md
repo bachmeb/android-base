@@ -128,8 +128,55 @@ Reference: http://www.sqlite.org/datatype3.html
 ```
 
 ###Make Service interface
+```java
+
+public interface IThingsService {
+
+}
+```
+
 ####Define methods to match UI buttons
-###Make Service class
-####Implement Service interface
+```java
+
+    public void createThing();
+    public void deleteThing();
+
+```
+
+###Make Service class and implement Service interface
+
+public class ThingsService implements IThingsService{
+
+
+}
+
 ####Instantiate DAO object
+```java
+
+    IThingsDAO daoThings;
+
+    }
+```
+
+####Implement interface methods
+```java
+    @Override
+    public void createThing() {
+    }
+    @Override
+    public void deleteThing() {
+    }
+```
+
 ####Call DAO methods in Serivce methods to read/write to DB
+```java
+    @Override
+    public void createThing() {
+    
+    }
+    @Override
+    public void deleteThing() {
+        daoThings.
+    }
+
+```
