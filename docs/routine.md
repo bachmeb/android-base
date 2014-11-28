@@ -219,7 +219,6 @@ public class AnswersDAO extends SQLiteOpenHelper implements IAnswersDAO {}
 Reference: http://www.sqlite.org/datatype3.html
 ```java
 
-
     @Override
     public void onCreate(SQLiteDatabase db) {
         //drop the table if it already exists
