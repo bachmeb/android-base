@@ -167,22 +167,34 @@ public class AnswersDAO extends SQLiteOpenHelper implements IAnswersDAO {}
 ####create populateObjectFromCursor() method
 ```java
 
-    private ThingDTO populateObjectFromCursor(Cursor cursor) {
+    private WordDTO populateObjectFromCursor(Cursor cursor) {
 
-        // create a new user object to hold our data.
-        ThingDTO dto = new ThingDTO();
+        // Create a new DTO
+        WordDTO dto = new WordDTO();
+        
+        // Create variables for each cursor field
+        int wid = cursor.getInt(cursor.getColumnIndex(PRIMARY_KEY) );
+        String wor = cursor.getString(cursor.getColumnIndex(WORD));
+        String let = cursor.getString(cursor.getColumnIndex(LETTERS));
+        int len = cursor.getInt(cursor.getColumnIndex(LENGTH));
+        String beg = cursor.getString(cursor.getColumnIndex(BEGINS_WITH));
+        String end = cursor.getString(cursor.getColumnIndex(ENDS_WITH));
+        String cat = cursor.getString(cursor.getColumnIndex(CATEGORY));
+        String lan = cursor.getString(cursor.getColumnIndex(LANGUAGE));
+        int dol = cursor.getInt(cursor.getColumnIndex(DOLCH));
 
-        // populate object with DTO fields
-        int id = cursor.getInt(cursor.getColumnIndex(PRIMARY_KEY) );
-        //String date = cursor.get(cursor.getColumnIndex(DATE));
-        String name = cursor.getString(cursor.getColumnIndex(NAME));
-
-        // populate the dto
-        dto.setId(id);
-        //dto.setDate(date);
-        dto.setName(name);
-
-        //
+        // Populate the DTO with the variables
+        dto.setWordId(wid);
+        dto.setWord(wor);
+        //dto.setLetters(let.toString());
+        dto.setLength(len);
+        dto.setBeginsWith(beg);
+        dto.setEndsWith(end);
+        dto.setCategory(cat);
+        dto.setLanguage(lan);
+        dto.setDolch(  (dol==1) ? true : false );
+        
+        // Return the object
         return dto;
     }
 ```
