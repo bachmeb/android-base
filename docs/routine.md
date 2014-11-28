@@ -322,3 +322,15 @@ private IThingsService service;
         btnReadNo = (Button) findViewById(R.id.buttonReadNo);
         txtWord = (TextView) findViewById(R.id.textReadWord);
 ```
+#####Attach onClick listener to the button object
+```java
+        btnReadYes.setOnClickListener(new View.OnClickListener() {
+                  @Override
+                  public void onClick(View currentView) {
+
+                      doSomething();
+
+                  }
+              }
+        );
+```
