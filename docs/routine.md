@@ -152,10 +152,15 @@ public class ThingsService implements IThingsService{
 
 ####Instantiate DAO object
 ```java
-
     IThingsDAO daoThings;
-
+```
+####Make a constructor for the service and require a context object
+```java
+    public ThingsService(Context ctx){
+        daoThings = new ThingsDAO(ctx);
+        things = daoThings.list();
     }
+
 ```
 
 ####Implement interface methods
@@ -172,11 +177,15 @@ public class ThingsService implements IThingsService{
 ```java
     @Override
     public void createThing() {
-    
+        try {
+            daoThings.create(answer);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
     @Override
     public void deleteThing() {
-        daoThings.
+        //TODO
     }
 
 ```
