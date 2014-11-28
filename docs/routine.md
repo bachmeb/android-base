@@ -84,34 +84,37 @@ public class AnswersDAO extends SQLiteOpenHelper implements IAnswersDAO {}
 ```
 ####Implement read() method
 ```java
+
+
     @Override
-    public WordDTO read(int key) throws Exception {
+    public QuestionDTO read(int key) throws Exception {
 
-        // our flexible query.
-        String fetchQuery  = "select * from " + TABLE_NAME + " where "+ PRIMARY_KEY +" = '" + key +"' ";
+        // Write the query
+        String sql  = "select * from " + TABLE_NAME + " where "+ PRIMARY_KEY +" = '" + key +"' ";
 
-        // run the query.
-        Cursor cursor = getReadableDatabase().rawQuery(fetchQuery, null);
+        // Run the query
+        Cursor cursor = getReadableDatabase().rawQuery(sql, null);
 
         if (cursor.getCount() == 1) {
-        
-            // move cursor to the first record
+
+            // Move the cursor to the first record
             cursor.moveToFirst();
 
-            // Make DTO
+            // Make a DTO object
             WordDTO dto = populateObjectFromCursor(cursor);
 
             // return DTO
             return dto;
-            
+
         } else if (cursor.getCount() > 1){
-            //Too many results
+            // More than one
             throw new Exception("Too many results returned.  Expected 1, got " + cursor.getCount());
         } else {
-            // No results
+            // Less than one
             return null;
         }
     }
+    
 ```
 
 
