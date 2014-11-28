@@ -150,7 +150,7 @@ public class ThingsService implements IThingsService{
 
 }
 ```
-####Instantiate DAO object
+####Declare the DAO object
 ```java
     IThingsDAO daoThings;
 ```
@@ -160,7 +160,7 @@ public class ThingsService implements IThingsService{
     }
 
 ```
-####Instantiate the DAO in the constructor
+####Instantiate the DAO in the constructor and send it the Context object
 ```java
     public ThingsService(Context ctx){
         daoThings = new ThingsDAO(ctx);
