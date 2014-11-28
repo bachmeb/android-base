@@ -1,16 +1,49 @@
 
-####Make DTO
-Define fields
+###Make DTO
+####Define fields
+```java
+public class ThingDTO {
+
+    private int id;
+    private String name;
+    private Date date;
+
+}
+
+```
 Make getters/setters
-####Make DAO interface
-Define CRUDL methods
-####Make DAO
-extend SQLiteOpenHelper
-implement DAO interface
+```java
+
+
+
+```
+###Make DAO interface
+####Define CRUDL methods
+```java
+public interface IThingsDAO {
+
+    boolean create(ThingDTO thing) throws Exception;
+
+    ThingDTO read(int thingId) throws Exception;
+
+    boolean update(ThingDTO thing) throws Exception;
+
+    void delete(ThingDTO thing) throws Exception;
+
+    ArrayList<ThingDTO> list();
+}
+```
+
+###Make DAO
+####extend SQLiteOpenHelper and implement DAO interface
+```java
+public class AnswersDAO extends SQLiteOpenHelper implements IAnswersDAO {}
+```
+
 implement abstract methods
 create constructor
 ```java
-    public AnswersDAO(Context context) {
+    public ThingsDAO(Context context) {
 
         super(context, "app.db", null, 1);
     }
