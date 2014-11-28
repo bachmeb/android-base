@@ -298,5 +298,27 @@ public class MyActivity extends Activity {
         android:layout_alignParentRight="true"
         android:layout_alignParentEnd="true" />
 ```
+####Declare objects in java to match components in XML
+```java
+    private Button btnReadYes;
+    private Button btnReadNo;
+    private TextView txtWord;
+    private WordDTO word;
+    private QuestionDTO question;
+```
 
-
+####Declare Service object as class field
+```java
+private IThingsService service;
+```
+####Edit onCreate method
+#####Instantiate service 
+```java
+        service = new ThingsService();
+```
+#####Initialize objects for UI components
+```java
+        btnReadYes = (Button) findViewById(R.id.buttonReadYes);
+        btnReadNo = (Button) findViewById(R.id.buttonReadNo);
+        txtWord = (TextView) findViewById(R.id.textReadWord);
+```
