@@ -17,5 +17,5 @@ public interface IAnswersDAO {
 
     void delete(AnswerDTO answer) throws Exception;
 
-    ArrayList<AnswerDTO> list();
+    ArrayList<AnswerDTO> list() throws Exception;
 }

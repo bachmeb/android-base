@@ -210,40 +210,55 @@ public class Prime extends BaseActivity {
         IWordsDAO dao = new WordsDAO(this);
         //Make a DTO
         WordDTO word = new WordDTO();
-        //Make a String for toast
-        String toast;
+        //Make an array list for the words
+        ArrayList<WordDTO> list = null;
 
-        //Call the list() method to make an ArrayList of words
-        ArrayList<WordDTO> words = dao.list();
-
-        //Count the size() of the ArrayList
-        int count = words.size();
-
-        //Make a random number between 1 and the size() of the ArrayList
-        int rand = (int) (count * Math.random());
-
+        //try to populate the list of words
         try {
-            //word.setWord(dao.read("the").getWord());
-            //Read a random word
-            word.setWord(dao.read(rand).getWord());
 
-            toast = "The word is: " + word.getWord();
+            //Call the list() method to make an ArrayList of words
+            list = dao.list();
 
-            makeToast( toast );
+            //Count the size() of the ArrayList
+            int count = list.size();
 
-            // Toast a count of all records
-            toastWords();
+            //Make a random number between 1 and the size() of the ArrayList
+            int rand = (int) (count * Math.random());
+
+            try {
+                //word.setWord(dao.read("the").getWord());
+                //Read a random word
+                word = dao.read(rand);
+
+                makeToast( "The word is: " + word.getWord() );
+
+                // Toast a count of all records
+                toastWords();
+
+            } catch (Exception e) {
+
+                makeToast("Failed on dao.read(rand)");
+
+                // Toast a count of all records
+                toastWords();
+
+                // Toast the exception
+                makeToast( e.toString() );
+
+                e.printStackTrace();
+            }
 
         } catch (Exception e) {
+            //
+            makeToast("Failed on dao.list()");
 
             // Toast a count of all records
             toastWords();
 
-            // Toast the exception
-            makeToast( e.toString() );
-
+            //
             e.printStackTrace();
         }
+
 
     }
 
@@ -253,34 +268,48 @@ public class Prime extends BaseActivity {
         IQuestionsDAO dao = new QuestionsDAO(this);
         //Make a DTO
         QuestionDTO dto = new QuestionDTO();
-        //Make a String for toast
-        String toast;
-
-        //Call the list() method to make an ArrayList of words
-        ArrayList<QuestionDTO> list = dao.list();
-
-        //Count the size() of the ArrayList
-        int count = list.size();
-
-        //Make a random number between 1 and the size() of the ArrayList
-        int rand = (int) (count * Math.random());
+        //
+        ArrayList<QuestionDTO> list = null;
 
         try {
-            // Read a random record
-            dto.setText(dao.read(rand).getText() );
+            //Call the list() method to make an ArrayList of words
+            list = dao.list();
+            //Count the size() of the ArrayList
+            int count = list.size();
 
-            // Toast it
-            makeToast("The question is: " + dto.getText() );
+            //Make a random number between 1 and the size() of the ArrayList
+            int rand = (int) (count * Math.random());
 
-            // Toast a count of all records
-            toastQuestions();
+            try {
+                // Read a random record
+                dto.setText(dao.read(rand).getText() );
+
+                // Toast it
+                makeToast("The question is: " + dto.getText() );
+
+                // Toast a count of all records
+                toastQuestions();
+
+            } catch (Exception e) {
+
+                //
+                makeToast("Failed on dao.read(rand)");
+
+                //
+                toastQuestions();
+
+                // Toast the exception
+                makeToast(e.toString());
+
+                e.printStackTrace();
+            }
 
         } catch (Exception e) {
+            //
+            makeToast("Failed on dao.list()");
+            //
             toastQuestions();
-
-            // Toast the exception
-            makeToast(e.toString());
-
+            //
             e.printStackTrace();
         }
 
@@ -307,35 +336,47 @@ public class Prime extends BaseActivity {
 
     }
 
-    public void deleteTable(String tableName){
-
-        //TODO: implement me
-
-        makeToast("not implemented");
-
-    }
-
-
     private void toastWords() {
         IWordsDAO dao = new WordsDAO(this);
-        ArrayList<WordDTO> list = dao.list();
-        int count = list.size();
+        ArrayList<WordDTO> list = null;
+        int count = 0;
+        try {
+            list = dao.list();
+            count = list.size();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
         makeToast("There are " + count + " records in the words table.");
     }
 
     private void toastQuestions() {
         IQuestionsDAO dao = new QuestionsDAO(this);
-        ArrayList<QuestionDTO> list = dao.list();
-        int count = list.size();
+        ArrayList<QuestionDTO> list = null;
+        int count = 0;
+
+        try {
+            list = dao.list();
+
+            count = list.size();
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
         makeToast("There are " + count + " records in the questions table.");
 
     }
 
     public void toastAnswers(){
         IAnswersDAO dao = new AnswersDAO(this);
-        ArrayList<AnswerDTO> list = dao.list();
-        int count = list.size();
-        makeToast("There are " + count + " records in the words table.");
+        ArrayList<AnswerDTO> list = null;
+        int count = 0;
+        try {
+            list = dao.list();
+            count = list.size();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        makeToast("There are " + count + " records in the answers table.");
     }
 
 

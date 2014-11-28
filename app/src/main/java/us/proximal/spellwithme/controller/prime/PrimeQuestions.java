@@ -27,7 +27,12 @@ public class PrimeQuestions {
         daoWords = new WordsDAO(ctx);
 
         //Get an array list of words
-        ArrayList<WordDTO> words = daoWords.list();
+        ArrayList<WordDTO> words = null;
+        try {
+            words = daoWords.list();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
 
         for(WordDTO word : words){
             QuestionDTO question = new QuestionDTO();

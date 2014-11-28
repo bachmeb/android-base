@@ -21,7 +21,11 @@ public class WordsService implements us.proximal.spellwithme.controller.def.IWor
         //This is important. The DAO needs the Context object for DB access
         dao = new WordsDAO(ctx);
         //get a list of all the words
-        words = dao.list();
+        try {
+            words = dao.list();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     @Override

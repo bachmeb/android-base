@@ -9,17 +9,17 @@ import us.proximal.spellwithme.model.dto.WordDTO;
  */
 public interface IWordsDAO {
 
-    public boolean create(WordDTO word);
+    public boolean create(WordDTO word) throws Exception;
 
     public WordDTO read(int wordId) throws Exception;
 
     public WordDTO read(String word) throws Exception;
 
-    public void update(WordDTO word);
+    public void update(WordDTO word) throws Exception;
 
-    public void delete(WordDTO word);
+    public void delete(WordDTO word) throws Exception;
 
-    public ArrayList<WordDTO> list();
+    public ArrayList<WordDTO> list() throws Exception;
 
 
 }

@@ -130,7 +130,7 @@ public class QuestionsDAO extends SQLiteOpenHelper implements IQuestionsDAO {
     }
 
     @Override
-    public ArrayList<QuestionDTO> list() {
+    public ArrayList<QuestionDTO> list() throws Exception {
 
         // Declare the variable that will hold our results.
         ArrayList<QuestionDTO> qs = new ArrayList<QuestionDTO>();

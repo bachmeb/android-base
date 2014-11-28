@@ -26,7 +26,11 @@ public class PrimeWords {
             word.setWord(dolch[i]);
             word.setDolch(true);
             word.setLength(dolch[i].length());
-            dao.create(word);
+            try {
+                dao.create(word);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
 
         }
 

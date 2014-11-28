@@ -41,7 +41,7 @@ public class WordsDAO extends SQLiteOpenHelper implements IWordsDAO {
 
 
     @Override
-    public boolean create(WordDTO dto) {
+    public boolean create(WordDTO dto) throws Exception {
 
         // Create a ContentValues object with same number of elements as DTO fields (minus 2)
         ContentValues cv = new ContentValues(8);
@@ -122,17 +122,17 @@ public class WordsDAO extends SQLiteOpenHelper implements IWordsDAO {
     }
 
     @Override
-    public void update(WordDTO word) {
+    public void update(WordDTO word) throws Exception {
         //TODO implement update
     }
 
     @Override
-    public void delete(WordDTO word) {
+    public void delete(WordDTO word) throws Exception {
         //TODO implement delete
     }
 
     @Override
-    public ArrayList<WordDTO> list() {
+    public ArrayList<WordDTO> list() throws Exception {
 
         // Make a new ArrayList
         ArrayList<WordDTO> words = new ArrayList<WordDTO>();
@@ -161,7 +161,7 @@ public class WordsDAO extends SQLiteOpenHelper implements IWordsDAO {
         return words;
     }
 
-    private WordDTO populateObjectFromCursor(Cursor cursor) {
+    private WordDTO populateObjectFromCursor(Cursor cursor) throws Exception {
 
         // Create a new DTO
         WordDTO dto = new WordDTO();
