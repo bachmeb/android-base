@@ -136,7 +136,7 @@ public class AnswersDAO extends SQLiteOpenHelper implements IAnswersDAO {}
     @Override
     public ArrayList<WordDTO> list() {
 
-        // Instantiate ArrayList
+        // Make a new ArrayList
         ArrayList<WordDTO> words = new ArrayList<WordDTO>();
 
         // Write the SQL query
@@ -145,24 +145,23 @@ public class AnswersDAO extends SQLiteOpenHelper implements IAnswersDAO {}
         // Execute the query
         Cursor cursor = getReadableDatabase().rawQuery(sql, null);
 
-        // Call moveToFirst on the cursor object
+        // Move the cursor to the first record
         cursor.moveToFirst();
 
-        // iterate over the cursor until it reaches the last row.
-        // notice the ! which negates true to false.
+        // Loop for as long as the cursor is not after the last record
         while(!cursor.isAfterLast()) {
-            // populate plant from cursor.
-            WordDTO w = populateObjectFromCursor(cursor);
+            // populate the object from cursor
+            WordDTO dto = populateObjectFromCursor(cursor);
 
-            // add to our collection.
-            words.add(w);
+            // add the DTO to the collection of DTOs
+            words.add(dto);
 
-            // move to the next result.
+            // Move the cursor to the next record
             cursor.moveToNext();
         }
+        // Return the collection
         return words;
     }
-
 ```
     
 ####create populateObjectFromCursor() method
