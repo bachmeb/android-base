@@ -84,8 +84,6 @@ public class AnswersDAO extends SQLiteOpenHelper implements IAnswersDAO {}
 ```
 ####Implement read() method
 ```java
-
-
     @Override
     public QuestionDTO read(int key) throws Exception {
 
@@ -95,13 +93,14 @@ public class AnswersDAO extends SQLiteOpenHelper implements IAnswersDAO {}
         // Run the query
         Cursor cursor = getReadableDatabase().rawQuery(sql, null);
 
+        //Test cursor count
         if (cursor.getCount() == 1) {
 
             // Move the cursor to the first record
             cursor.moveToFirst();
 
             // Make a DTO object
-            WordDTO dto = populateObjectFromCursor(cursor);
+            QuestionDTO dto = populateObjectFromCursor(cursor);
 
             // return DTO
             return dto;
