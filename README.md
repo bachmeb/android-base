@@ -1,0 +1,4 @@
+SpellWithMe
+===========
+
+See [docs](/docs)
