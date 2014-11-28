@@ -1,10 +1,10 @@
 
-Make DTO
+####Make DTO
 	Define fields
 	Make getters/setters
-Make DAO interface
+####Make DAO interface
 	Define CRUDL methods
-Make DAO
+####Make DAO
 	extend SQLiteOpenHelper
 	implement DAO interface
 	implement abstract methods
@@ -14,9 +14,9 @@ Make DAO
 	create populateObjectFromCursor() method
 	Create onUpdate() method
 
-Make Service interface
+####Make Service interface
 	Define methods to match UI buttons
-Make Service class
+####Make Service class
 	Implement Service interface
 	Instantiate DAO object
 	Call DAO methods in Serivce methods to read/write to DB
