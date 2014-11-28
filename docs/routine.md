@@ -58,6 +58,61 @@ public class AnswersDAO extends SQLiteOpenHelper implements IAnswersDAO {}
     private static final String DATE = "date";
 
 ```
+####implement create() method
+```java 
+
+    @Override
+    public boolean create(ThingDTO dto) throws Exception {
+
+
+        // Create a ContentValues object with same number of elements as DTO fields (minus 2)
+        ContentValues cv = new ContentValues(5);
+        
+        // Add values from DTO fields
+        cv.put(QUESTION_ID, dto.getQuestionId() );
+        cv.put(STUDENT_ID, dto.getStudentId() );
+        cv.put(MKO_ID, dto.getMkoId() );
+        cv.put(DATE, dto.getDate().toString() );
+        cv.put(GRADE,  dto.getGrade() );
+
+        // put the values into database
+        getWritableDatabase().insert(TABLE_NAME, PRIMARY_KEY, cv);
+
+        return true;
+
+    }
+```
+####Implement read() method
+```java
+    @Override
+    public WordDTO read(int wordId) throws Exception {
+
+        // our flexible query.
+        String fetchQuery  = "select * from " + TABLE_NAME + " where "+ PRIMARY_KEY +" = '" + wordId +"' ";
+
+        // run the query.
+        Cursor cursor = getReadableDatabase().rawQuery(fetchQuery, null);
+
+        if (cursor.getCount() == 1) {
+        
+            // move cursor to the first record
+            cursor.moveToFirst();
+
+            // Make DTO
+            WordDTO dto = populateObjectFromCursor(cursor);
+
+            // return DTO
+            return dto;
+            
+        } else if (cursor.getCount() > 1){
+            //Too many results
+            throw new Exception("Too many results returned.  Expected 1, got " + cursor.getCount());
+        } else {
+            // No results
+            return null;
+        }
+    }
+```
 
 ####create populateObjectFromCursor() method
 ```java
