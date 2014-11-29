@@ -1,8 +1,8 @@
 package us.proximal.spellwithme.controller.prime;
 
-import android.content.Context;
+import android.app.Activity;
 
-import us.proximal.spellwithme.model.dao.WordsDAO;
+import us.proximal.spellwithme.model.ada.WordsAdapter;
 import us.proximal.spellwithme.model.def.IWordsDAO;
 import us.proximal.spellwithme.model.dto.WordDTO;
 
@@ -12,10 +12,10 @@ import us.proximal.spellwithme.model.dto.WordDTO;
 public class PrimeWords {
     IWordsDAO dao;
 
-    public void fillTheDatabaseWithWords(Context ctx){
+    public void fillTheDatabaseWithWords(Activity act){
 
         //This is important. The DAO needs the Context object for DB access
-        dao = new WordsDAO(ctx);
+        //dao = new WordsDAO(ctx);
 
         String [] dolch;
 
@@ -27,7 +27,10 @@ public class PrimeWords {
             word.setDolch(true);
             word.setLength(dolch[i].length());
             try {
-                dao.create(word);
+                //dao.create(word);
+                WordsAdapter wa = new WordsAdapter(act);
+                wa.create(word);
+
             } catch (Exception e) {
                 e.printStackTrace();
             }

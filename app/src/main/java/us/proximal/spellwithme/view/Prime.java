@@ -8,6 +8,10 @@ import android.widget.Toast;
 import java.util.ArrayList;
 
 import us.proximal.spellwithme.R;
+import us.proximal.spellwithme.controller.prime.PrimeDatabase;
+import us.proximal.spellwithme.controller.prime.PrimeQuestions;
+import us.proximal.spellwithme.controller.prime.PrimeWords;
+import us.proximal.spellwithme.model.ada.WordsAdapter;
 import us.proximal.spellwithme.model.dao.AnswersDAO;
 import us.proximal.spellwithme.model.dao.QuestionsDAO;
 import us.proximal.spellwithme.model.dao.WordsDAO;
@@ -17,9 +21,6 @@ import us.proximal.spellwithme.model.def.IWordsDAO;
 import us.proximal.spellwithme.model.dto.AnswerDTO;
 import us.proximal.spellwithme.model.dto.QuestionDTO;
 import us.proximal.spellwithme.model.dto.WordDTO;
-import us.proximal.spellwithme.controller.prime.PrimeDatabase;
-import us.proximal.spellwithme.controller.prime.PrimeQuestions;
-import us.proximal.spellwithme.controller.prime.PrimeWords;
 
 public class Prime extends BaseActivity {
 
@@ -155,7 +156,7 @@ public class Prime extends BaseActivity {
     private void databaseDelete() {
 
         //Create a prime object
-        PrimeDatabase prime = new PrimeDatabase(this);
+        PrimeDatabase prime = new PrimeDatabase();
 
         boolean result = prime.delete(this);
 
@@ -167,7 +168,7 @@ public class Prime extends BaseActivity {
     private void databaseExists() {
 
         //Create a prime object
-        PrimeDatabase prime = new PrimeDatabase(this);
+        PrimeDatabase prime = new PrimeDatabase();
 
         // check if the database exists
         boolean exists = prime.exists(this);
@@ -187,7 +188,7 @@ public class Prime extends BaseActivity {
     public void databaseCreate(){
 
         //Create a prime object
-        PrimeDatabase prime = new PrimeDatabase(this);
+        PrimeDatabase prime = new PrimeDatabase();
 
         // check if the database exists
         boolean exists = prime.exists(this);
@@ -208,6 +209,10 @@ public class Prime extends BaseActivity {
     public void toastWord(){
         //Make a DAO
         IWordsDAO dao = new WordsDAO(this);
+
+        //Make adapter
+        WordsAdapter wa = new WordsAdapter(this);
+
         //Make a DTO
         WordDTO word = new WordDTO();
         //Make an array list for the words
@@ -217,7 +222,9 @@ public class Prime extends BaseActivity {
         try {
 
             //Call the list() method to make an ArrayList of words
-            list = dao.list();
+            //list = dao.list();
+
+            list = wa.list();
 
             //Count the size() of the ArrayList
             int count = list.size();
@@ -228,7 +235,9 @@ public class Prime extends BaseActivity {
             try {
                 //word.setWord(dao.read("the").getWord());
                 //Read a random word
-                word = dao.read(rand);
+                //word = dao.read(rand);
+
+                word = wa.read(rand);
 
                 makeToast( "The word is: " + word.getWord() );
 

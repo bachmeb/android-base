@@ -41,7 +41,7 @@ public class WordsDAO extends SQLiteOpenHelper implements IWordsDAO {
 
 
     @Override
-    public boolean create(WordDTO dto) throws Exception {
+    public long create(WordDTO dto) throws Exception {
 
         // Create a ContentValues object with same number of elements as DTO fields (minus 2)
         ContentValues cv = new ContentValues(8);
@@ -57,9 +57,8 @@ public class WordsDAO extends SQLiteOpenHelper implements IWordsDAO {
         cv.put(DOLCH,  dto.isDolch() );
 
         // put the values into database
-        getWritableDatabase().insert(TABLE_NAME, PRIMARY_KEY, cv);
+        return getWritableDatabase().insert(TABLE_NAME, PRIMARY_KEY, cv);
 
-        return true;
 
     }
 
@@ -94,31 +93,7 @@ public class WordsDAO extends SQLiteOpenHelper implements IWordsDAO {
 
     @Override
     public WordDTO read(String text) throws Exception {
-
-        // our flexible query.
-        String fetchQuery  = "select * from " + TABLE_NAME + " where "+ WORD +" = '" + text +"' ";
-
-        // run the query.
-        Cursor cursor = getReadableDatabase().rawQuery(fetchQuery, null);
-
-
-        if (cursor.getCount() == 1) {
-            // Move cursor to first record
-            cursor.moveToFirst();
-
-            // Make the object
-            WordDTO dto = populateObjectFromCursor(cursor);
-
-            // Return the object
-            return dto;
-
-        } else if (cursor.getCount() > 1){
-            // More than one record
-            throw new Exception("Too many results returned.  Expected 1, got " + cursor.getCount());
-        } else {
-            // Less than one record
-            return null;
-        }
+        return null;
     }
 
     @Override
