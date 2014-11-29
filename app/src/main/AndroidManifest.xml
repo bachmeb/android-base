@@ -47,6 +47,10 @@
             android:name=".view.Me"
             android:label="@string/title_activity_me" >
         </activity>
+        <activity
+            android:name=".view.MyStudents"
+            android:label="@string/title_activity_my_students" >
+        </activity>
     </application>
 
 </manifest>
