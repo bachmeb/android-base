@@ -14,71 +14,115 @@ public class ThingDTO {
 Make getters/setters
 ```java
 
+    public String getFirstName() {
+        return firstName;
+    }
 
+    public void setFirstName(String firstName) {
+        this.firstName = firstName;
+    }
 
 ```
 ###Make DAO interface
 ####Define CRUDL methods
 ```java
-public interface IThingsDAO {
 
-    boolean create(ThingDTO thing) throws Exception;
-
-    ThingDTO read(int thingId) throws Exception;
-
-    boolean update(ThingDTO thing) throws Exception;
-
-    void delete(ThingDTO thing) throws Exception;
-
-    ArrayList<ThingDTO> list();
+public interface IPeopleDAO {
+    
+    boolean create(PersonDTO dto) throws Exception;
+    
+    PersonDTO read(int key) throws Exception;
+    
+    boolean update(PersonDTO dto) throws Exception;
+    
+    void delete(PersonDTO dto) throws Exception;
+    
+    ArrayList<PersonDTO> list() throws Exception;
+    
 }
 ```
 
 ###Make DAO
-####extend SQLiteOpenHelper and implement DAO interface
+####extend database adapter and implement DAO interface
 ```java
 public class AnswersDAO extends SQLiteOpenHelper implements IAnswersDAO {}
 ```
 
 ####implement abstract methods
-####create constructor and send Context object to super constructor
 ```java
-    public ThingsDAO(Context context) {
 
-        super(context, "app.db", null, 1);
+    @Override
+    public boolean create(PersonDTO dto) throws Exception {
+        return false;
+    }
+
+    @Override
+    public PersonDTO read(int key) throws Exception {
+        return null;
+    }
+
+    @Override
+    public boolean update(PersonDTO dto) throws Exception {
+        return false;
+    }
+
+    @Override
+    public void delete(PersonDTO dto) throws Exception {
+
+    }
+
+    @Override
+    public ArrayList<PersonDTO> list() throws Exception {
+        return null;
+    }
+
+```
+####create constructor matching super
+```java
+
+    public PeopleDAO(Activity a) {
+        super(a);
     }
 ```
 ####define static fields for table name, primary key, and all fields in DTO
 ```java
 
-    private static final String TABLE_NAME = "things";
-    private static final String PRIMARY_KEY = "id";
 
-    private static final String NAME = "name";
-    private static final String DATE = "date";
+    public static final String TABLE_NAME = "answers";
+    public static final String PRIMARY_KEY = "answerId";
 
+    public static final String QUESTION_ID = "questionId";
+    public static final String STUDENT_ID = "studentId";
+    public static final String MKO_ID = "mkoId";
+    public static final String DATE = "date";
+    public static final String GRADE = "grade";
+    
 ```
 ####implement create() method
 ```java 
 
     @Override
-    public boolean create(ThingDTO dto) throws Exception {
+    public long create(PersonDTO dto) throws Exception {
 
-
-        // Create a ContentValues object with same number of elements as DTO fields (minus 2)
-        ContentValues cv = new ContentValues(5);
+        // Instantiate result value
+        long result = 0;
         
+        // Create a ContentValues object
+        ContentValues cv = new ContentValues();
+
         // Add values from DTO fields
-        cv.put(QUESTION_ID, dto.getQuestionId() );
-        cv.put(STUDENT_ID, dto.getStudentId() );
-        cv.put(MKO_ID, dto.getMkoId() );
-        cv.put(DATE, dto.getDate().toString() );
-        cv.put(GRADE,  dto.getGrade() );
+        cv.put(FIRST_NAME, dto.getFirstName() );
+        cv.put(LAST_NAME, dto.getLastName() );
+        cv.put(BIRTH_DATE, dto.getBirthDate() );
 
-        // put the values into database
-        getWritableDatabase().insert(TABLE_NAME, PRIMARY_KEY, cv);
+        // Open the database
+        super.open();
 
-        return true;
+        // Insert values
+        result = appDatabase.insert(TABLE_NAME, PRIMARY_KEY, cv);
+
+        // Return the result
+        return result;
 
     }
 ```
@@ -202,64 +246,6 @@ public class AnswersDAO extends SQLiteOpenHelper implements IAnswersDAO {}
         return dto;
     }
 ```
-####Create onUpdate() method
-```java
-    public void onUpdate(SQLiteDatabase db) {
-
-        //Run a DROP IF EXISTS statement to drop the ACCOUNTS table.
-        //Invoke onCreate.
-
-        db.execSQL("DROP TABLE IF EXISTS '" + TABLE_NAME + "'");
-
-    }
-```
-
-####Implement onCreate method
-Reference: http://www.sqlite.org/datatype3.html
-```java
-
-    @Override
-    public void onCreate(SQLiteDatabase db) {
-        //drop the table if it already exists
-        this.onUpdate(db);
-
-        // define the schema
-        String schema = "CREATE TABLE "
-                + TABLE_NAME
-                + " ("
-                + PRIMARY_KEY
-                + " INTEGER PRIMARY KEY AUTOINCREMENT, "
-                + WORD
-                + " TEXT, "
-                + LETTERS
-                + " TEXT, "
-                + LENGTH
-                + " INTEGER, "
-                + BEGINS_WITH
-                + " TEXT, "
-                + ENDS_WITH
-                + " TEXT, "
-                + CATEGORY
-                + " TEXT, "
-                + LANGUAGE
-                + " TEXT, "
-                + DOLCH
-                + " TEXT );";
-        
-        // create the table
-        db.execSQL(schema);
-
-    }
-
-```
-####Leave onUpgrade method empty
-```java
-
-    @Override
-    public void onUpgrade(SQLiteDatabase sqLiteDatabase, int i, int i2) {
-        // Empty method from SQLiteOpenHelper
-    }
-```
 
 ###Make Service interface
 ```java
@@ -286,20 +272,27 @@ public class ThingsService implements IThingsService{
 ```
 ####Declare the DAO object
 ```java
-    IThingsDAO daoThings;
+    IPeopleDAO daoPeople;
+    ArrayList<PersonDTO> people;
 ```
-####Make a constructor for the service and require a context object
+####Make a constructor for the service and require an Activity
 ```java
-    public ThingsService(Context ctx){
+    public ThingsService(Activity act){
     }
 
 ```
 ####Instantiate the DAO in the constructor and send it the Context object
 ```java
-    public ThingsService(Context ctx){
-        daoThings = new ThingsDAO(ctx);
-        things = daoThings.list();
+
+    public PeopleService(Activity act){
+        daoPeople = new PeopleDAO(act);
+        try {
+            people = daoPeople.list();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
+    
 ```
 
 ####Implement interface methods
@@ -314,17 +307,47 @@ public class ThingsService implements IThingsService{
 
 ####Call DAO methods in Serivce methods to read/write to DB
 ```java
+
     @Override
-    public void createThing() {
+    public long addPerson(PersonDTO dto) {
+        //
+        long result = 0;
+        //
         try {
-            daoThings.create(answer);
+            result = daoPeople.create(dto);
         } catch (Exception e) {
             e.printStackTrace();
         }
+        //
+        return result;
     }
+    
     @Override
-    public void deleteThing() {
-        //TODO
+    public ArrayList<PersonDTO> getListOfPeople() {
+        try {
+            people = daoPeople.list();
+            return people;
+            
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+    
+    @Override
+    public PersonDTO getOnePersonObject(int key) {
+        //
+        PersonDTO person;
+            //
+            try {
+                person = daoPeople.read(key);
+                return person;
+
+            } catch (Exception e) {
+                e.printStackTrace();
+                return null;
+            }
+        
     }
 
 ```
@@ -432,6 +455,33 @@ public class MyActivity extends Activity {
         android:layout_alignParentRight="true"
         android:layout_alignParentEnd="true" />
 ```
+####Java class extends BaseActivity
+```java
+
+public class People extends BaseActivity {
+```
+
+####Remove onCreateOptionsMenu() and onOptionsItemSelected()
+```java
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        // Inflate the menu; this adds items to the action bar if it is present.
+        getMenuInflater().inflate(R.menu.people, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        // Handle action bar item clicks here. The action bar will
+        // automatically handle clicks on the Home/Up button, so long
+        // as you specify a parent activity in AndroidManifest.xml.
+        int id = item.getItemId();
+        if (id == R.id.action_settings) {
+            return true;
+        }
+        return super.onOptionsItemSelected(item);
+    }
+```
 ####Declare objects in java to match components in XML
 ```java
     private Button btnReadYes;
@@ -443,12 +493,17 @@ public class MyActivity extends Activity {
 
 ####Declare Service object as class field
 ```java
-private IThingsService service;
+
+    // Declare service
+    private IPeopleService svcPeople;
 ```
 ####Edit onCreate method
 #####Instantiate service 
 ```java
-        service = new ThingsService();
+
+        // Instantiate service
+        svcPeople = new PeopleService(this);
+        
 ```
 #####Initialize objects for UI components
 ```java
@@ -468,3 +523,21 @@ private IThingsService service;
               }
         );
 ```
+#####If the button is opening another Activity...
+```java
+
+
+    private void openMeActivity(View view) {
+
+        // declare the intent
+        Intent intent = new Intent(view.getContext(), Read.class);
+        // act on the intent
+        startActivity(intent);
+
+    }
+```
+
+
+
+
+
