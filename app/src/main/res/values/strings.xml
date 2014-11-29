@@ -9,5 +9,6 @@
     <string name="title_activity_read">Read</string>
     <string name="title_activity_test">Test</string>
     <string name="title_activity_my">MyActivity</string>
+    <string name="title_activity_people">People</string>
 
 </resources>
