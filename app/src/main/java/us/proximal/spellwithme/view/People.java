@@ -57,7 +57,7 @@ public class People extends BaseActivity {
     private void openMyStudentsActivity(View view) {
 
         // declare the intent
-        Intent intent = new Intent(view.getContext(), Read.class);
+        Intent intent = new Intent(view.getContext(), MyStudents.class);
         // act on the intent
         startActivity(intent);
     }
@@ -65,7 +65,7 @@ public class People extends BaseActivity {
     private void openMeActivity(View view) {
 
         // declare the intent
-        Intent intent = new Intent(view.getContext(), Read.class);
+        Intent intent = new Intent(view.getContext(), Me.class);
         // act on the intent
         startActivity(intent);
 

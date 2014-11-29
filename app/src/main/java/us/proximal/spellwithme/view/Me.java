@@ -1,12 +1,20 @@
 package us.proximal.spellwithme.view;
 
-import android.app.Activity;
 import android.os.Bundle;
-import android.view.Menu;
-import android.view.MenuItem;
-import us.proximal.spellwithme.R;
+import android.widget.Button;
+import android.widget.TextView;
 
-public class Me extends Activity {
+import us.proximal.spellwithme.R;
+import us.proximal.spellwithme.model.dto.QuestionDTO;
+import us.proximal.spellwithme.model.dto.WordDTO;
+
+public class Me extends BaseActivity {
+
+    private Button btnReadYes;
+    private Button btnReadNo;
+    private TextView txtWord;
+    private WordDTO word;
+    private QuestionDTO question;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -15,22 +23,5 @@ public class Me extends Activity {
     }
 
 
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.me, menu);
-        return true;
-    }
 
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
-        if (id == R.id.action_settings) {
-            return true;
-        }
-        return super.onOptionsItemSelected(item);
-    }
 }

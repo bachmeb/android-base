@@ -51,6 +51,10 @@
             android:name=".view.MyStudents"
             android:label="@string/title_activity_my_students" >
         </activity>
+        <activity
+            android:name=".view.MeEdit"
+            android:label="@string/title_activity_me_edit" >
+        </activity>
     </application>
 
 </manifest>
