@@ -8,9 +8,21 @@
     android:paddingBottom="@dimen/activity_vertical_margin"
     tools:context="us.proximal.spellwithme.view.People">
 
-    <TextView
-        android:text="@string/hello_world"
+    <Button
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
+        android:layout_height="wrap_content"
+        android:text="Me"
+        android:id="@+id/buttonPeopleMe"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="101dp" />
 
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="My Students"
+        android:id="@+id/buttonPeopleMyStudents"
+        android:layout_below="@+id/buttonPeopleMe"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="117dp" />
 </RelativeLayout>

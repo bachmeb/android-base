@@ -14,6 +14,7 @@ public class BaseActivity extends Activity {
     private static final int MENU_OPTION_1 = 1;
     protected static final int MENU_OPTION_2 = 2;
     protected static final int MENU_OPTION_3 = 3;
+    protected static final int MENU_OPTION_4 = 4;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -28,6 +29,7 @@ public class BaseActivity extends Activity {
         menu.add(0, MENU_OPTION_1, Menu.NONE, getString(R.string.title_activity_read));
         menu.add(0, MENU_OPTION_2, Menu.NONE, getString(R.string.title_activity_spell));
         menu.add(0, MENU_OPTION_3, Menu.NONE, getString(R.string.title_activity_test));
+        menu.add(0, MENU_OPTION_4, Menu.NONE, getString(R.string.title_activity_people));
 
         return true;
     }
@@ -46,6 +48,9 @@ public class BaseActivity extends Activity {
                 break;
             case MENU_OPTION_3:
                 openOptionThree();
+                break;
+            case MENU_OPTION_4:
+                openOptionFour();
                 break;
         }
         return true;
@@ -70,6 +75,14 @@ public class BaseActivity extends Activity {
     private void openOptionThree() {
         // declare the intent
         Intent intent = new Intent(BaseActivity.this, Prime.class);
+        // act on the intent
+        startActivity(intent);
+
+    }
+
+    private void openOptionFour() {
+        // declare the intent
+        Intent intent = new Intent(BaseActivity.this, People.class);
         // act on the intent
         startActivity(intent);
 
