@@ -85,33 +85,35 @@ public class AnswersDAO extends SQLiteOpenHelper implements IAnswersDAO {}
 ####Implement read() method
 ```java
     @Override
-    public WordDTO read(int key) throws Exception {
+    public QuestionDTO read(int key) throws Exception {
 
-        // our flexible query.
-        String fetchQuery  = "select * from " + TABLE_NAME + " where "+ PRIMARY_KEY +" = '" + key +"' ";
+        // Write the query
+        String sql  = "select * from " + TABLE_NAME + " where "+ PRIMARY_KEY +" = '" + key +"' ";
 
-        // run the query.
-        Cursor cursor = getReadableDatabase().rawQuery(fetchQuery, null);
+        // Run the query
+        Cursor cursor = getReadableDatabase().rawQuery(sql, null);
 
+        //Test cursor count
         if (cursor.getCount() == 1) {
-        
-            // move cursor to the first record
+
+            // Move the cursor to the first record
             cursor.moveToFirst();
 
-            // Make DTO
-            WordDTO dto = populateObjectFromCursor(cursor);
+            // Make a DTO object
+            QuestionDTO dto = populateObjectFromCursor(cursor);
 
             // return DTO
             return dto;
-            
+
         } else if (cursor.getCount() > 1){
-            //Too many results
+            // More than one
             throw new Exception("Too many results returned.  Expected 1, got " + cursor.getCount());
         } else {
-            // No results
+            // Less than one
             return null;
         }
     }
+    
 ```
 
 
@@ -134,10 +136,10 @@ public class AnswersDAO extends SQLiteOpenHelper implements IAnswersDAO {}
 ```java
 
     @Override
-    public ArrayList<WordDTO> list() {
+    public ArrayList<QuestionDTO> list() {
 
         // Make a new ArrayList
-        ArrayList<WordDTO> words = new ArrayList<WordDTO>();
+        ArrayList<QuestionDTO> list = new ArrayList<QuestionDTO>();
 
         // Write the SQL query
         String sql  = "select * from " + TABLE_NAME;
@@ -150,18 +152,20 @@ public class AnswersDAO extends SQLiteOpenHelper implements IAnswersDAO {}
 
         // Loop for as long as the cursor is not after the last record
         while(!cursor.isAfterLast()) {
-            // populate the object from cursor
-            WordDTO dto = populateObjectFromCursor(cursor);
+            
+            // populate the object from the cursor
+            QuestionDTO dto = populateObjectFromCursor(cursor);
 
             // add the DTO to the collection of DTOs
-            words.add(dto);
+            list.add(dto);
 
             // Move the cursor to the next record
             cursor.moveToNext();
         }
         // Return the collection
-        return words;
+        return list;
     }
+    
 ```
     
 ####create populateObjectFromCursor() method
@@ -213,7 +217,6 @@ public class AnswersDAO extends SQLiteOpenHelper implements IAnswersDAO {}
 ####Implement onCreate method
 Reference: http://www.sqlite.org/datatype3.html
 ```java
-
 
     @Override
     public void onCreate(SQLiteDatabase db) {
