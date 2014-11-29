@@ -4,7 +4,6 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import us.proximal.spellwithme.R;
 import us.proximal.spellwithme.controller.def.IQuestionsService;
@@ -72,15 +71,6 @@ public class Spell extends BaseActivity {
         setSpellingWord();
     }
 
-    /*
-    General method for making toast
-    */
-    public void makeToast(String toast){
-
-        Toast.makeText(getApplicationContext(), toast, Toast.LENGTH_LONG).show();
-
-
-    }
 
     public void setSpellingWord(){
 
@@ -88,4 +78,6 @@ public class Spell extends BaseActivity {
 
 
     }
+
+
 }

@@ -1,45 +1,41 @@
 package us.proximal.spellwithme.model.dao;
 
+import android.app.Activity;
 import android.content.ContentValues;
-import android.content.Context;
 import android.database.Cursor;
-import android.database.sqlite.SQLiteDatabase;
-import android.database.sqlite.SQLiteOpenHelper;
 
 import java.util.ArrayList;
 
+import us.proximal.spellwithme.model.ada.ProximalDbAdapter;
 import us.proximal.spellwithme.model.def.IQuestionsDAO;
 import us.proximal.spellwithme.model.dto.QuestionDTO;
 
 /**
- * Created by b on 11/26/14.
+ * Created by b on 11/28/14.
  */
+public class QuestionsDAO extends ProximalDbAdapter implements IQuestionsDAO {
 
-public class QuestionsDAO extends SQLiteOpenHelper implements IQuestionsDAO {
+    public static final String TABLE_NAME = "questions";
+    public static final String PRIMARY_KEY = "questionId";
 
-    private static final String TABLE_NAME = "questions";
-    private static final String PRIMARY_KEY = "questionId";
+    public static final String WORD_ID = "wordId";
+    public static final String DESCRIPTION = "description";
+    public static final String TEXT = "text";
+    public static final String TYPE = "type";
+    public static final String WORD = "word";
 
-    private static final String WORD_ID = "wordId";
-    private static final String DESCRIPTION = "description";
-    private static final String TEXT = "text";
-    private static final String TYPE = "type";
-    private static final String WORD = "word";
-
-//    public ThingDAO(Context context, String name, SQLiteDatabase.CursorFactory factory, int version) {
-//        super(context, name, factory, version);
-//    }
-
-    public QuestionsDAO(Context context) {
-
-        super(context, "spellwithme.db", null, 1);
+    /*
+    Constructor needs Activity
+     */
+    public QuestionsDAO(Activity a){
+        super(a);
     }
 
     @Override
-    public boolean create(QuestionDTO dto) throws Exception {
+    public long create(QuestionDTO dto) throws Exception {
 
-        // Create a ContentValues object with same number of elements as DTO fields (minus 2)
-        ContentValues cv = new ContentValues(5);
+        // Create a CV object
+        ContentValues cv = new ContentValues();
 
         // Add values from DTO fields
         cv.put(WORD_ID, dto.getWordId() );
@@ -49,9 +45,9 @@ public class QuestionsDAO extends SQLiteOpenHelper implements IQuestionsDAO {
         cv.put(WORD,  dto.getWord() );
 
         // put the values into database
-        getWritableDatabase().insert(TABLE_NAME, PRIMARY_KEY, cv);
+        long result =  appDatabase.insert(TABLE_NAME, PRIMARY_KEY, cv);
 
-        return true;
+        return result;
 
     }
 
@@ -62,7 +58,8 @@ public class QuestionsDAO extends SQLiteOpenHelper implements IQuestionsDAO {
         String sql  = "select * from " + TABLE_NAME + " where "+ PRIMARY_KEY +" = '" + key +"' ";
 
         // Run the query
-        Cursor cursor = getReadableDatabase().rawQuery(sql, null);
+        super.open();
+        Cursor cursor = appDatabase.rawQuery(sql, null);
 
         //Test cursor count
         if (cursor.getCount() == 1) {
@@ -86,7 +83,7 @@ public class QuestionsDAO extends SQLiteOpenHelper implements IQuestionsDAO {
     }
 
     @Override
-    public QuestionDTO read(String qText) throws Exception {
+    public QuestionDTO read(String text) throws Exception {
         //TODO: implement me
         return null;
     }
@@ -137,7 +134,8 @@ public class QuestionsDAO extends SQLiteOpenHelper implements IQuestionsDAO {
         String sql  = "select * from " + TABLE_NAME;
 
         // Execute the query
-        Cursor cursor = getReadableDatabase().rawQuery(sql, null);
+        super.open();
+        Cursor cursor = appDatabase.rawQuery(sql, null);
 
         // Move the cursor to the first record
         cursor.moveToFirst();
@@ -158,46 +156,4 @@ public class QuestionsDAO extends SQLiteOpenHelper implements IQuestionsDAO {
         return list;
     }
 
-
-    public void onUpdate(SQLiteDatabase db) {
-
-        //Run a DROP IF EXISTS statement to drop the ACCOUNTS table.
-        //Invoke onCreate.
-
-        db.execSQL("DROP TABLE IF EXISTS '" + TABLE_NAME + "'");
-
-    }
-
-    @Override
-    public void onCreate(SQLiteDatabase db) {
-        //drop the table if it exists
-        this.onUpdate(db);
-
-        // define schema
-        String schema = "CREATE TABLE "
-                + TABLE_NAME
-                + " ("
-                + PRIMARY_KEY
-                + " INTEGER PRIMARY KEY AUTOINCREMENT, "
-                + WORD_ID
-                + " INTEGER, "
-                + DESCRIPTION
-                + " TEXT, "
-                + TEXT
-                + " TEXT, "
-                + TYPE
-                + " TEXT, "
-                + WORD
-                + " TEXT );";
-
-        // create table
-        db.execSQL(schema);
-
-    }
-
-    @Override
-    public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
-        int i =0;
-        // Empty method from SQLiteOpenHelper
-    }
 }

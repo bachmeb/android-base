@@ -1,7 +1,5 @@
 package us.proximal.spellwithme.model.dto;
 
-import java.util.Date;
-
 /**
  * Created by b on 11/26/14.
  */
@@ -11,7 +9,7 @@ public class AnswerDTO {
     private int questionId;
     private int studentId;
     private int mkoId;
-    private Date date;
+    private String date;
     private String grade;
 
     public int getAnswerId() {
@@ -46,11 +44,11 @@ public class AnswerDTO {
         this.mkoId = mkoId;
     }
 
-    public Date getDate() {
+    public String getDate() {
         return date;
     }
 
-    public void setDate(Date date) {
+    public void setDate(String date) {
         this.date = date;
     }
 
@@ -61,4 +59,6 @@ public class AnswerDTO {
     public void setGrade(String grade) {
         this.grade = grade;
     }
+
+
 }

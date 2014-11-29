@@ -1,10 +1,11 @@
 package us.proximal.spellwithme.controller.svc;
 
-import android.content.Context;
+import android.app.Activity;
 
 import java.util.ArrayList;
 
 import us.proximal.spellwithme.controller.def.IQuestionsService;
+import us.proximal.spellwithme.model.dao.AnswersDAO;
 import us.proximal.spellwithme.model.dao.QuestionsDAO;
 import us.proximal.spellwithme.model.def.IAnswersDAO;
 import us.proximal.spellwithme.model.def.IQuestionsDAO;
@@ -23,13 +24,17 @@ public class QuestionsService implements IQuestionsService {
     /*
     Constructor
      */
-    public QuestionsService(Context ctx){
-        daoQuestions = new QuestionsDAO(ctx);
+    public QuestionsService(Activity act){
+        daoQuestions = new QuestionsDAO(act);
+        daoAnswers = new AnswersDAO(act);
+
+        //Populate the collection field
         try {
             questions = daoQuestions.list();
         } catch (Exception e) {
             e.printStackTrace();
         }
+
     }
 
     /*
@@ -37,11 +42,11 @@ public class QuestionsService implements IQuestionsService {
      */
     @Override
     public QuestionDTO ask(int studentId, int mkoId) throws Exception {
-        QuestionDTO q;
+        QuestionDTO dto;
         int count = questions.size();
         int rand = (int)( count * Math.random() );
-        q = daoQuestions.read(rand);
-        return q;
+        dto = daoQuestions.read(rand);
+        return dto;
     }
 
     /*
@@ -49,9 +54,9 @@ public class QuestionsService implements IQuestionsService {
      */
     @Override
     public QuestionDTO ask(int studentId, int mkoId, int questionId) throws Exception {
-        QuestionDTO q;
-        q = daoQuestions.read(questionId);
-        return q;
+        QuestionDTO dto;
+        dto = daoQuestions.read(questionId);
+        return dto;
     }
 
     /*

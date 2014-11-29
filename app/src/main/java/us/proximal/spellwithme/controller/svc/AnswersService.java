@@ -1,6 +1,6 @@
 package us.proximal.spellwithme.controller.svc;
 
-import android.content.Context;
+import android.app.Activity;
 
 import us.proximal.spellwithme.controller.def.IAnswersService;
 import us.proximal.spellwithme.model.dao.AnswersDAO;
@@ -17,8 +17,9 @@ public class AnswersService implements IAnswersService{
     /*
     Constructor
     */
-    public AnswersService(Context ctx){
-        daoAnswers = new AnswersDAO(ctx);
+    public AnswersService(Activity act){
+
+        daoAnswers = new AnswersDAO(act);
     }
 
     @Override

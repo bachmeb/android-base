@@ -9,9 +9,11 @@ import us.proximal.spellwithme.model.dto.WordDTO;
  * Created by b on 11/26/14.
  */
 public class SWordsDAO implements IWordsDAO {
+
+
     @Override
-    public boolean create(WordDTO word) {
-        return false;
+    public long create(WordDTO word) throws Exception {
+        return 0;
     }
 
     @Override

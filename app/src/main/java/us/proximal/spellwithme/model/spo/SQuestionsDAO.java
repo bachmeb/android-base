@@ -12,8 +12,8 @@ import us.proximal.spellwithme.model.dto.QuestionDTO;
 public class SQuestionsDAO implements IQuestionsDAO {
 
     @Override
-    public boolean create(QuestionDTO q) throws Exception {
-        return false;
+    public long create(QuestionDTO q) throws Exception {
+        return 0;
     }
 
     @Override

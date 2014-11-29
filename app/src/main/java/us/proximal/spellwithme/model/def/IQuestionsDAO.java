@@ -8,7 +8,7 @@ import us.proximal.spellwithme.model.dto.QuestionDTO;
  * Created by b on 11/26/14.
  */
 public interface IQuestionsDAO {
-    boolean create(QuestionDTO q) throws Exception;
+    long create(QuestionDTO q) throws Exception;
 
     QuestionDTO read(int accountId) throws Exception;
 

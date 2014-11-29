@@ -1,6 +1,6 @@
 package us.proximal.spellwithme.controller.svc;
 
-import android.content.Context;
+import android.app.Activity;
 
 import java.util.ArrayList;
 
@@ -17,15 +17,13 @@ public class WordsService implements us.proximal.spellwithme.controller.def.IWor
     private IWordsDAO dao;
     private ArrayList<WordDTO> words;
 
-    public WordsService(Context ctx){
-        //This is important. The DAO needs the Context object for DB access
-        dao = new WordsDAO(ctx);
-        //get a list of all the words
-        try {
-            words = dao.list();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+    /*
+    Constructor
+     */
+    public WordsService(Activity act){
+        //Instantiate the DAO
+        dao = new WordsDAO(act);
+
     }
 
     @Override
@@ -38,6 +36,7 @@ public class WordsService implements us.proximal.spellwithme.controller.def.IWor
             word = dao.read(rand);
             return word;
         } catch (Exception e) {
+            System.out.println( e.toString() );
             e.printStackTrace();
             return null;
         }
@@ -52,6 +51,7 @@ public class WordsService implements us.proximal.spellwithme.controller.def.IWor
             word = dao.read(wordId);
             return word;
         } catch (Exception e) {
+            System.out.println( e.toString() );
             e.printStackTrace();
             return null;
         }
@@ -65,6 +65,8 @@ public class WordsService implements us.proximal.spellwithme.controller.def.IWor
             word = dao.read(text);
             return word;
         } catch (Exception e) {
+
+            System.out.println( e.toString() );
             e.printStackTrace();
             return null;
         }
@@ -78,6 +80,8 @@ public class WordsService implements us.proximal.spellwithme.controller.def.IWor
             word = dao.read(0);
             return word;
         } catch (Exception e) {
+
+            System.out.println( e.toString() );
             e.printStackTrace();
             return null;
         }

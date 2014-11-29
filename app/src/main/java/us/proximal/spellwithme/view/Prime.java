@@ -3,15 +3,10 @@ package us.proximal.spellwithme.view;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
-import android.widget.Toast;
 
 import java.util.ArrayList;
 
 import us.proximal.spellwithme.R;
-import us.proximal.spellwithme.controller.prime.PrimeDatabase;
-import us.proximal.spellwithme.controller.prime.PrimeQuestions;
-import us.proximal.spellwithme.controller.prime.PrimeWords;
-import us.proximal.spellwithme.model.ada.WordsAdapter;
 import us.proximal.spellwithme.model.dao.AnswersDAO;
 import us.proximal.spellwithme.model.dao.QuestionsDAO;
 import us.proximal.spellwithme.model.dao.WordsDAO;
@@ -21,9 +16,16 @@ import us.proximal.spellwithme.model.def.IWordsDAO;
 import us.proximal.spellwithme.model.dto.AnswerDTO;
 import us.proximal.spellwithme.model.dto.QuestionDTO;
 import us.proximal.spellwithme.model.dto.WordDTO;
+import us.proximal.spellwithme.utility.DbUtil;
+
+import static us.proximal.spellwithme.utility.ToastUtil.makeToast;
 
 public class Prime extends BaseActivity {
 
+
+    IWordsDAO daoWords;
+    IQuestionsDAO daoQuestions;
+    ArrayList<WordDTO> words;
 
     Button btnDatabaseExists;
     Button btnDatabaseCreate;
@@ -98,11 +100,11 @@ public class Prime extends BaseActivity {
 
         //attach onClick listener to the button object
         btnPrimeQuestions.setOnClickListener(new View.OnClickListener() {
-                                             @Override
-                                             public void onClick(View currentView) {
-                                                 primeQuestions();
+                                                 @Override
+                                                 public void onClick(View currentView) {
+                                                     primeQuestions();
+                                                 }
                                              }
-                                         }
         );
 
         //attach onClick listener to the button object
@@ -116,21 +118,21 @@ public class Prime extends BaseActivity {
 
         //attach onClick listener to the button object
         btnToastQuestion.setOnClickListener(new View.OnClickListener() {
-                                            @Override
-                                            public void onClick(View currentView) {
-                                                toastQuestion();
+                                                @Override
+                                                public void onClick(View currentView) {
+                                                    toastQuestion();
+                                                }
                                             }
-                                        }
         );
 
 
         //attach onClick listener to the button object
         btnToastWords.setOnClickListener(new View.OnClickListener() {
-                                               @Override
-                                               public void onClick(View currentView) {
-                                                   toastWords();
-                                               }
-                                           }
+                                             @Override
+                                             public void onClick(View currentView) {
+                                                 toastWords();
+                                             }
+                                         }
         );
 
         //attach onClick listener to the button object
@@ -156,19 +158,19 @@ public class Prime extends BaseActivity {
     private void databaseDelete() {
 
         //Create a prime object
-        PrimeDatabase prime = new PrimeDatabase();
+        DbUtil prime = new DbUtil();
 
         boolean result = prime.delete(this);
 
-        if(result){
-            makeToast("The database has been deleted.");
+        if (result) {
+            makeToast(this, "The database has been deleted.");
         }
     }
 
     private void databaseExists() {
 
         //Create a prime object
-        PrimeDatabase prime = new PrimeDatabase();
+        DbUtil prime = new DbUtil();
 
         // check if the database exists
         boolean exists = prime.exists(this);
@@ -177,18 +179,17 @@ public class Prime extends BaseActivity {
         //exists = true;
 
         // delete it if it exists
-        if (exists){
-            makeToast("The database does exist.");
-        }
-        else {
-            makeToast("The database does not exist.");
+        if (exists) {
+            makeToast(this, "The database does exist.");
+        } else {
+            makeToast(this, "The database does not exist.");
         }
     }
 
-    public void databaseCreate(){
+    public void databaseCreate() {
 
         //Create a prime object
-        PrimeDatabase prime = new PrimeDatabase();
+        DbUtil prime = new DbUtil();
 
         // check if the database exists
         boolean exists = prime.exists(this);
@@ -197,7 +198,7 @@ public class Prime extends BaseActivity {
         //exists = true;
 
         // delete it if it exists
-        if (exists){
+        if (exists) {
             prime.delete(this);
         }
 
@@ -206,15 +207,14 @@ public class Prime extends BaseActivity {
 
     }
 
-    public void toastWord(){
-        //Make a DAO
-        IWordsDAO dao = new WordsDAO(this);
+    public void toastWord() {
 
         //Make adapter
-        WordsAdapter wa = new WordsAdapter(this);
+        IWordsDAO dao = new WordsDAO(this);
 
         //Make a DTO
         WordDTO word = new WordDTO();
+
         //Make an array list for the words
         ArrayList<WordDTO> list = null;
 
@@ -222,9 +222,7 @@ public class Prime extends BaseActivity {
         try {
 
             //Call the list() method to make an ArrayList of words
-            //list = dao.list();
-
-            list = wa.list();
+            list = dao.list();
 
             //Count the size() of the ArrayList
             int count = list.size();
@@ -237,29 +235,30 @@ public class Prime extends BaseActivity {
                 //Read a random word
                 //word = dao.read(rand);
 
-                word = wa.read(rand);
+                word = dao.read(rand);
 
-                makeToast( "The word is: " + word.getWord() );
+                makeToast(this, "The word is: " + word.getWord());
 
                 // Toast a count of all records
                 toastWords();
 
             } catch (Exception e) {
 
-                makeToast("Failed on dao.read(rand)");
+                makeToast(this, "Failed on wa.read(rand)");
 
                 // Toast a count of all records
                 toastWords();
 
                 // Toast the exception
-                makeToast( e.toString() );
+                makeToast(this, e.toString());
 
                 e.printStackTrace();
             }
 
         } catch (Exception e) {
+
             //
-            makeToast("Failed on dao.list()");
+            makeToast(this, "Failed on wa.list()");
 
             // Toast a count of all records
             toastWords();
@@ -268,11 +267,10 @@ public class Prime extends BaseActivity {
             e.printStackTrace();
         }
 
-
     }
 
+    public void toastQuestion() {
 
-    public void toastQuestion(){
         //Make a DAO
         IQuestionsDAO dao = new QuestionsDAO(this);
         //Make a DTO
@@ -291,57 +289,110 @@ public class Prime extends BaseActivity {
 
             try {
                 // Read a random record
-                dto.setText(dao.read(rand).getText() );
+                dto.setText(dao.read(rand).getText());
 
                 // Toast it
-                makeToast("The question is: " + dto.getText() );
+                makeToast(this, "The question is: " + dto.getText());
 
                 // Toast a count of all records
-                toastQuestions();
+                //toastQuestions();
 
             } catch (Exception e) {
 
                 //
-                makeToast("Failed on dao.read(rand)");
+                makeToast(this, "Failed on dao.read(rand)");
 
                 //
                 toastQuestions();
 
                 // Toast the exception
-                makeToast(e.toString());
+                makeToast(this, e.toString());
 
                 e.printStackTrace();
             }
 
         } catch (Exception e) {
             //
-            makeToast("Failed on dao.list()");
+            makeToast(this, "Failed on dao.list()");
             //
             toastQuestions();
             //
             e.printStackTrace();
         }
+    }
+
+    public void primeWords() {
+
+        //
+        makeToast(this, "Here we go...");
+        //
+        String[] dolch;
+        //
+        dolch = makeDolch();
+        //
+        for (int i = 0; i < dolch.length; i++) {
+            WordDTO word = new WordDTO();
+            word.setWord(dolch[i]);
+            word.setDolch(true);
+            word.setLength(dolch[i].length());
+            try {
+                //
+                WordsDAO dao = new WordsDAO(this);
+                //
+                dao.create(word);
+
+            } catch (Exception e) {
+                makeToast(this, "Failed on wa.create");
+                e.printStackTrace();
+            }
+
+        }
+        //
+        makeToast(this, "Call to fill database with words done!");
 
     }
 
-    public void primeWords(){
+    public void primeQuestions() {
 
-        makeToast("Here we go...");
-        //give the UI a service object
-        PrimeWords prime = new PrimeWords();
-        //send the service object this ui object
-        prime.fillTheDatabaseWithWords(this);
-        makeToast("Call to PrimeWords done!");
+        long count = 0;
 
-    }
+        makeToast(this, "Here we go...");
 
-    public void primeQuestions(){
 
-        makeToast("Here we go...");
-        PrimeQuestions prime = new PrimeQuestions();
-        //send the service object this ui object
-        prime.fillTheDatabaseWithQuestions(this);
-        makeToast("Call to PrimeQuestions done!");
+        //This is important. The DAO needs the Context object for DB access
+        daoWords = new WordsDAO(this);
+        daoQuestions = new QuestionsDAO(this);
+
+        try {
+            //Get an array list of words
+            words = daoWords.list();
+        } catch (Exception e) {
+            makeToast(this, "Failed on daoWords.list()");
+            System.out.print( e.toString());
+            e.printStackTrace();
+        }
+
+        for (WordDTO word : words) {
+            QuestionDTO question = new QuestionDTO();
+
+            question.setWord(word.getWord());
+            question.setDescription("This is a spelling question.");
+            question.setText("How do you spell the word '" + word.getWord() + "'?");
+            question.setWordId(word.getWordId());
+            try {
+                count += daoQuestions.create(question);
+                System.out.println(question.getText() );
+                //Log.d(TAG, "Created question: " + question.getText() );
+            } catch (Exception e) {
+                //makeToast(this, e.toString());
+                System.out.println( e.toString());
+
+                e.printStackTrace();
+            }
+
+        }
+        //
+        makeToast(this, "Call to PrimeQuestions done!");
 
     }
 
@@ -355,7 +406,7 @@ public class Prime extends BaseActivity {
         } catch (Exception e) {
             e.printStackTrace();
         }
-        makeToast("There are " + count + " records in the words table.");
+        makeToast(this, "There are " + count + " records in the words table.");
     }
 
     private void toastQuestions() {
@@ -369,13 +420,17 @@ public class Prime extends BaseActivity {
             count = list.size();
 
         } catch (Exception e) {
+            System.out.print( e.toString() );
             e.printStackTrace();
         }
-        makeToast("There are " + count + " records in the questions table.");
+        makeToast(this, "There are " + count + " records in the questions table.");
 
     }
 
-    public void toastAnswers(){
+    public void toastAnswers() {
+        int correct = 0;
+        int incorrect = 0;
+
         IAnswersDAO dao = new AnswersDAO(this);
         ArrayList<AnswerDTO> list = null;
         int count = 0;
@@ -385,19 +440,250 @@ public class Prime extends BaseActivity {
         } catch (Exception e) {
             e.printStackTrace();
         }
-        makeToast("There are " + count + " records in the answers table.");
+        makeToast(this, "There are " + count + " records in the answers table.");
+
+        for (AnswerDTO dto : list){
+            if ( dto.getGrade().equals("1") ){
+                correct++;
+            }
+            if ( dto.getGrade().equals("0") ){
+                incorrect++;
+            }
+        }
+        //
+        makeToast(this, "There are " + correct + " correct answers.");
+        //
+        makeToast(this, "There are " + incorrect + " incorrect answers.");
+
     }
 
+    private String[] makeDolch() {
+        String[] words = {
+                "the",
+                "to",
+                "and",
+                "he",
+                "a",
+                "I",
+                "you",
+                "it",
+                "of",
+                "in",
+                "was",
+                "said",
+                "his",
+                "that",
+                "she",
+                "for",
+                "on",
+                "they",
+                "but",
+                "had",
+                "at",
+                "him",
+                "with",
+                "up",
+                "all",
+                "look",
+                "is",
+                "her",
+                "there",
+                "some",
+                "out",
+                "as",
+                "be",
+                "have",
+                "go",
+                "we",
+                "am",
+                "then",
+                "little",
+                "down",
+                "do",
+                "can",
+                "could",
+                "when",
+                "did",
+                "what",
+                "so",
+                "see",
+                "not",
+                "were",
+                "get",
+                "them",
+                "like",
+                "one",
+                "this",
+                "my",
+                "would",
+                "me",
+                "will",
+                "yes",
+                "big",
+                "went",
+                "are",
+                "come",
+                "if",
+                "now",
+                "long",
+                "no",
+                "came",
+                "ask",
+                "very",
+                "an",
+                "over",
+                "your",
+                "its",
+                "ride",
+                "into",
+                "just",
+                "blue",
+                "red",
+                "from",
+                "good",
+                "any",
+                "about",
+                "around",
+                "want",
+                "don’t",
+                "how",
+                "right",
+                "put",
+                "too",
+                "got",
+                "take",
+                "where",
+                "every",
+                "pretty",
+                "jump",
+                "green",
+                "four",
+                "away",
+                "old",
+                "by",
+                "their",
+                "here",
+                "saw",
+                "call",
+                "after",
+                "well",
+                "think",
+                "ran",
+                "let",
+                "help",
+                "make",
+                "going",
+                "sleep",
+                "brown",
+                "yellow",
+                "five",
+                "six",
+                "walk",
+                "two",
+                "or",
+                "before",
+                "eat",
+                "again",
+                "play",
+                "who",
+                "been",
+                "may",
+                "stop",
+                "off",
+                "right",
+                "never",
+                "seven",
+                "eight",
+                "cold",
+                "today",
+                "fly",
+                "myself",
+                "round",
+                "tell",
+                "much",
+                "keep",
+                "give",
+                "work",
+                "first",
+                "try",
+                "new",
+                "must",
+                "start",
+                "black",
+                "white",
+                "ten",
+                "does",
+                "bring",
+                "goes",
+                "write",
+                "always",
+                "drink",
+                "once",
+                "soon",
+                "made",
+                "run",
+                "gave",
+                "open",
+                "has",
+                "find",
+                "only",
+                "us",
+                "three",
+                "our",
+                "better",
+                "hold",
+                "buy",
+                "funny",
+                "warm",
+                "ate",
+                "full",
+                "those",
+                "done",
+                "use",
+                "fast",
+                "say",
+                "light",
+                "pick",
+                "hurt",
+                "pull",
+                "cut",
+                "kind",
+                "both",
+                "sit",
+                "which",
+                "fall",
+                "carry",
+                "small",
+                "under",
+                "read",
+                "why",
+                "own",
+                "found",
+                "wash",
+                "show",
+                "hot",
+                "because",
+                "far",
+                "live",
+                "draw",
+                "clean",
+                "grow",
+                "best",
+                "upon",
+                "these",
+                "sing",
+                "together",
+                "please",
+                "thank",
+                "wish",
+                "many",
+                "shall",
+                "laugh"
+        };
 
-    /*
-    General method for making toast
-    */
-    public void makeToast(String toast){
-
-        Toast.makeText(getApplicationContext(), toast, Toast.LENGTH_LONG).show();
-
-
+        return words;
     }
+
 //
 //
 //    private void querySetGetGo() {
