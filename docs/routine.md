@@ -23,6 +23,39 @@ Make getters/setters
     }
 
 ```
+###Add table definition to DbAdapter
+```java
+
+    public static final String SQL_QUESTIONS = "CREATE TABLE " + QuestionsDAO.TABLE_NAME + " (" +
+            QuestionsDAO.PRIMARY_KEY + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
+            QuestionsDAO.WORD_ID + " INTEGER, " +
+            QuestionsDAO.WORD + " TEXT, " +
+            QuestionsDAO.DESCRIPTION + " TEXT, " +
+            QuestionsDAO.TEXT + " TEXT, " +
+            QuestionsDAO.TYPE + " TEXT " +
+            ");";
+```
+###Add db.execSQL() statement to onCreate() method
+```java
+        @Override
+        public void onCreate(SQLiteDatabase db) {
+            db.execSQL(SQL_QUESTIONS);
+            db.execSQL(SQL_WORDS);
+            db.execSQL(SQL_ANSWERS);
+        }
+
+```
+###Add db.execSQL() statement to onUpgrade() method
+```java
+        @Override
+        public void onUpgrade(SQLiteDatabase db, int arg1, int arg2) {
+            db.execSQL("DROP TABLE IF EXISTS " + QuestionsDAO.TABLE_NAME);
+            db.execSQL("DROP TABLE IF EXISTS " + WordsDAO.TABLE_NAME);
+            db.execSQL("DROP TABLE IF EXISTS " + AnswersDAO.TABLE_NAME);
+            onCreate(db);
+        }
+```
+
 ###Make DAO interface
 ####Define CRUDL methods
 ```java
@@ -507,6 +540,7 @@ public class People extends BaseActivity {
 ```
 #####Initialize objects for UI components
 ```java
+        // Initialize objects
         btnReadYes = (Button) findViewById(R.id.buttonReadYes);
         btnReadNo = (Button) findViewById(R.id.buttonReadNo);
         txtWord = (TextView) findViewById(R.id.textReadWord);
