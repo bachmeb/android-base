@@ -206,36 +206,37 @@ public class WordsDAO extends SQLiteOpenHelper implements IWordsDAO {
         //drop the table if it already exists
         this.onUpdate(db);
 
-        // define the schema
-        String schema = "CREATE TABLE "
-                + TABLE_NAME
-                + " ("
-                + PRIMARY_KEY
-                + " INTEGER PRIMARY KEY AUTOINCREMENT, "
-                + WORD
-                + " TEXT, "
-                + LETTERS
-                + " TEXT, "
-                + LENGTH
-                + " INTEGER, "
-                + BEGINS_WITH
-                + " TEXT, "
-                + ENDS_WITH
-                + " TEXT, "
-                + CATEGORY
-                + " TEXT, "
-                + LANGUAGE
-                + " TEXT, "
-                + DOLCH
-                + " TEXT );";
-
-        // create the table
-        db.execSQL(schema);
+//        // define the schema
+//        String schema = "CREATE TABLE "
+//                + TABLE_NAME
+//                + " ("
+//                + PRIMARY_KEY
+//                + " INTEGER PRIMARY KEY AUTOINCREMENT, "
+//                + WORD
+//                + " TEXT, "
+//                + LETTERS
+//                + " TEXT, "
+//                + LENGTH
+//                + " INTEGER, "
+//                + BEGINS_WITH
+//                + " TEXT, "
+//                + ENDS_WITH
+//                + " TEXT, "
+//                + CATEGORY
+//                + " TEXT, "
+//                + LANGUAGE
+//                + " TEXT, "
+//                + DOLCH
+//                + " TEXT );";
+//
+//        // create the table
+//        db.execSQL(schema);
 
     }
 
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
         // Empty method from SQLiteOpenHelper
+        int i = 0;
     }
 }
