@@ -79,7 +79,7 @@ public interface IPeopleDAO {
 ###Make DAO
 ####extend database adapter and implement DAO interface
 ```java
-public class AnswersDAO extends SQLiteOpenHelper implements IAnswersDAO {}
+public class AnswersDAO extends ProximalDbAdapter implements IAnswersDAO {}
 ```
 
 ####implement abstract methods
