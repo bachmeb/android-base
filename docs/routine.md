@@ -198,7 +198,29 @@ public class AnswersDAO extends ProximalDbAdapter implements IAnswersDAO {}
 ####Implement update() method
 ```java
     @Override
-    public void update(WordDTO word) {
+    public long update(PersonDTO dto) throws Exception {
+
+        long result = 0;
+
+        PersonDTO person;
+
+        // Write the query
+        String sql  = "update " + TABLE_NAME +
+                " set " +
+                PeopleDAO.FIRST_NAME + " = '" + dto.getFirstName() + "', " +
+                PeopleDAO.LAST_NAME + " = '" + dto.getLastName() + "', " +
+                PeopleDAO.BIRTH_DATE + " = '" + dto.getBirthDate() + "' " +
+                " where "+ PRIMARY_KEY +" = '" + dto.getPersonId() +"' "
+                ;
+
+        // Run the query
+        super.open();
+
+        Cursor cursor = appDatabase.rawQuery(sql, null);
+
+        result = cursor.getCount();
+
+        return result;
 
     }
 ```
