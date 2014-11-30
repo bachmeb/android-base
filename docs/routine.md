@@ -166,29 +166,37 @@ public class AnswersDAO extends ProximalDbAdapter implements IAnswersDAO {}
 
 ####Implement update() method
 ```java
+
     @Override
-    public long update(PersonDTO dto) throws Exception {
+    public long update(RelationshipDTO dto) throws Exception {
 
         long result = 0;
 
-        PersonDTO person;
+        RelationshipDTO relationship;
 
         // Write the query
         String sql  = "update " + TABLE_NAME +
                 " set " +
-                PeopleDAO.FIRST_NAME + " = '" + dto.getFirstName() + "', " +
-                PeopleDAO.LAST_NAME + " = '" + dto.getLastName() + "', " +
-                PeopleDAO.BIRTH_DATE + " = '" + dto.getBirthDate() + "' " +
-                " where "+ PRIMARY_KEY +" = '" + dto.getPersonId() +"' "
+                RelationshipsDAO.PRIMARY_ID + " = '" + dto.getPrimaryId() + "', " +
+                RelationshipsDAO.SECONDARY_ID + " = '" + dto.getSecondaryId() + "', " +
+                RelationshipsDAO.TYPE + " = '" + dto.getType() + "', " +
+                
+                " where "+ PRIMARY_KEY +" = '" + dto.getRelationshipId() +"' "
                 ;
 
-        // Run the query
+        // Open the database
         super.open();
 
+        // Run the query
         Cursor cursor = appDatabase.rawQuery(sql, null);
 
+        // Get the count
         result = cursor.getCount();
 
+        // Close the database
+        super.close();
+        
+        // Return the count
         return result;
 
     }
@@ -321,8 +329,8 @@ public interface IThingsService {
 ####Define methods to match UI buttons
 ```java
 
-    public void createThing();
-    public void deleteThing();
+    public void createThing() throws Exception;
+    public void deleteThing() throws Exception;
 
 ```
 
@@ -361,10 +369,10 @@ public class ThingsService implements IThingsService{
 ####Implement interface methods
 ```java
     @Override
-    public void createThing() {
+    public void createThing() throws Exception {
     }
     @Override
-    public void deleteThing() {
+    public void deleteThing() throws Exception {
     }
 ```
 
