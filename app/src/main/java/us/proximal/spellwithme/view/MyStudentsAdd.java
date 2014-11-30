@@ -37,7 +37,7 @@ public class MyStudentsAdd extends Activity {
 
 
         edtFirstName = (EditText) findViewById(R.id.editMyStudentsAddFirstName);
-        edtLastName = (EditText) findViewById(R.id.editMyStudentsAddFirstName);
+        edtLastName = (EditText) findViewById(R.id.editMyStudentsAddLastName);
         edtBirthDate = (EditText) findViewById(R.id.editMyStudentsAddBirthDate);
 
         btnSave = (Button) findViewById(R.id.buttonMyStudentsAddSave);

@@ -6,6 +6,7 @@ import java.util.ArrayList;
 
 import us.proximal.spellwithme.controller.def.IPeopleService;
 import us.proximal.spellwithme.model.dao.PeopleDAO;
+import us.proximal.spellwithme.model.dao.RelationshipsDAO;
 import us.proximal.spellwithme.model.def.IPeopleDAO;
 import us.proximal.spellwithme.model.dto.PersonDTO;
 
@@ -77,10 +78,33 @@ public class PeopleService implements IPeopleService {
     public ArrayList<PersonDTO> getListOfMyStudents() throws Exception  {
         ArrayList<PersonDTO> students;
 
-        String[] fields;
-        String[] values;
+        String[] select;
+        String[] from;
+        String[][] where;
 
-        students = daoPeople.list(fields,values);
+        select = new String[4];
+        from = new String[2];
+        where = new String[2][2];
+
+        //SELECT
+        select[0] = PeopleDAO.PRIMARY_KEY;
+        select[1] = PeopleDAO.FIRST_NAME;
+        select[2] = PeopleDAO.LAST_NAME;
+        select[3] = PeopleDAO.BIRTH_DATE;
+
+        //FROM
+        from[0] = PeopleDAO.TABLE_NAME;
+        from[1] = RelationshipsDAO.TABLE_NAME;
+
+        //WHERE
+        where[0][0] = PeopleDAO.TABLE_NAME + "." + PeopleDAO.PRIMARY_KEY;
+        where[0][1] = String.valueOf(getMyPersonObject().getPersonId());
+
+        //AND
+        where[1][0] = RelationshipsDAO.TABLE_NAME + "." + RelationshipsDAO.TYPE;
+        where[1][1] = "MKO";
+
+        students = daoPeople.list(select, from, where);
 
         return students;
     }

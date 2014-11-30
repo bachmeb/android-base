@@ -159,6 +159,79 @@ public class PeopleDAO extends ProximalDbAdapter implements IPeopleDAO {
         return list;
     }
 
+    @Override
+    public ArrayList<PersonDTO> list(String[] select, String[] from, String[][] where) throws Exception {
+
+//        SELECT Name, Day FROM Customers, Reservations
+//        WHERE Customers.CustomerId = Reservations.CustomerId;
+
+        StringBuilder sbSelect = new StringBuilder();
+        StringBuilder sbFrom = new StringBuilder();
+        StringBuilder sbWhere = new StringBuilder();
+
+        sbSelect.append("SELECT ");
+        for(int i=0;i<select.length;i++){
+            if(i>0){
+                sbSelect.append(", ");
+            }
+            sbSelect.append(select[i]);
+        }
+
+        sbFrom.append(" FROM ");
+        for(int i=0;i<from.length;i++){
+            if(i>0){
+                sbFrom.append(", ");
+            }
+            sbFrom.append(from[i]);
+        }
+
+        sbWhere.append(" WHERE ");
+        for(int i=0;i<where.length;i++){
+            if(i>0){
+                sbWhere.append(" AND ");
+            }
+            sbWhere.append(where[i][0]);
+            sbWhere.append("='");
+            sbWhere.append(where[i][1]);
+            sbWhere.append("' ");
+        }
+
+        // Make a new ArrayList
+        ArrayList<PersonDTO> list = new ArrayList<PersonDTO>();
+
+        // Write the SQL query
+        String sql  = sbSelect.toString() + sbFrom.toString() + sbWhere.toString();
+
+        // Open the database
+        super.open();
+
+        // Execute the query
+        Cursor cursor = appDatabase.rawQuery(sql, null);
+
+        // Move the cursor to the first record
+        cursor.moveToFirst();
+
+        // Loop for as long as the cursor is not after the last record
+        while(!cursor.isAfterLast()) {
+
+            // populate the object from the cursor
+            PersonDTO dto = populateObjectFromCursor(cursor);
+
+            // add the DTO to the collection of DTOs
+            list.add(dto);
+
+            // Move the cursor to the next record
+            cursor.moveToNext();
+        }
+        // Close the database
+        super.close();
+
+        // Return the collection
+        return list;
+
+
+    }
+
     private PersonDTO populateObjectFromCursor(Cursor cursor) {
 
         // Create a new DTO
