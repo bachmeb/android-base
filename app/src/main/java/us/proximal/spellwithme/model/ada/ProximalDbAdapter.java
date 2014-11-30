@@ -9,6 +9,7 @@ import android.database.sqlite.SQLiteOpenHelper;
 import us.proximal.spellwithme.model.dao.AnswersDAO;
 import us.proximal.spellwithme.model.dao.PeopleDAO;
 import us.proximal.spellwithme.model.dao.QuestionsDAO;
+import us.proximal.spellwithme.model.dao.RelationshipsDAO;
 import us.proximal.spellwithme.model.dao.WordsDAO;
 
 /**
@@ -18,7 +19,7 @@ import us.proximal.spellwithme.model.dao.WordsDAO;
 public abstract class ProximalDbAdapter {
 
     public static String DATABASE_NAME = "spellwithme.db";
-    public static final int DATABASE_VERSION = 3;
+    public static final int DATABASE_VERSION = 4;
 
     public static DbHelper dbHelper;
     public static Context appContext;
@@ -76,6 +77,18 @@ public abstract class ProximalDbAdapter {
             + PeopleDAO.BIRTH_DATE
             + " TEXT );";
 
+    public static final String SQL_RELATIONSHIPS = "CREATE TABLE "
+            + RelationshipsDAO.TABLE_NAME
+            + " ("
+            + RelationshipsDAO.PRIMARY_KEY
+            + " INTEGER PRIMARY KEY AUTOINCREMENT, "
+            + RelationshipsDAO.PRIMARY_ID
+            + " TEXT, "
+            + RelationshipsDAO.SECONDARY_ID
+            + " TEXT, "
+            + RelationshipsDAO.TYPE
+            + " TEXT );";
+
     /*
     Constructor
      */
@@ -116,6 +129,7 @@ public abstract class ProximalDbAdapter {
             db.execSQL(SQL_WORDS);
             db.execSQL(SQL_ANSWERS);
             db.execSQL(SQL_PEOPLE);
+            db.execSQL(SQL_RELATIONSHIPS);
         }
 
         @Override
@@ -123,6 +137,8 @@ public abstract class ProximalDbAdapter {
             db.execSQL("DROP TABLE IF EXISTS " + QuestionsDAO.TABLE_NAME);
             db.execSQL("DROP TABLE IF EXISTS " + WordsDAO.TABLE_NAME);
             db.execSQL("DROP TABLE IF EXISTS " + AnswersDAO.TABLE_NAME);
+            db.execSQL("DROP TABLE IF EXISTS " + PeopleDAO.TABLE_NAME);
+            db.execSQL("DROP TABLE IF EXISTS " + RelationshipsDAO.TABLE_NAME);
             onCreate(db);
         }
 

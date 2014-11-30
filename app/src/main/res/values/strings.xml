@@ -13,5 +13,6 @@
     <string name="title_activity_me">Me</string>
     <string name="title_activity_my_students">MyStudents</string>
     <string name="title_activity_me_edit">MeEdit</string>
+    <string name="title_activity_my_students_add">MyStudentsAdd</string>
 
 </resources>

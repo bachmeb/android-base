@@ -75,7 +75,14 @@ public class PeopleService implements IPeopleService {
 
     @Override
     public ArrayList<PersonDTO> getListOfMyStudents() throws Exception  {
-        return null;
+        ArrayList<PersonDTO> students;
+
+        String[] fields;
+        String[] values;
+
+        students = daoPeople.list(fields,values);
+
+        return students;
     }
 
     @Override

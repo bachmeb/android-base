@@ -19,4 +19,6 @@ public interface IPeopleDAO {
 
     ArrayList<PersonDTO> list() throws Exception;
 
+    ArrayList<PersonDTO> list(String[] columns, String[] values) throws Exception;
+
 }

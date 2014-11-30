@@ -12,7 +12,37 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/listMyStudents"
-        android:layout_centerVertical="true"
         android:layout_centerHorizontal="true"
-        android:choiceMode="singleChoice" />
+        android:layout_alignParentTop="true"
+        android:layout_marginTop="30dp"
+        android:choiceMode="singleChoice"
+
+        android:layout_above="@+id/buttonMyStudentsAdd"
+        android:layout_below="@+id/textMyStudentsSpaceTop"
+
+        />
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Add Student"
+        android:id="@+id/buttonMyStudentsAdd"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="50dp"
+
+        />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:id="@+id/textMyStudentsSpaceTop"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+
+        android:layout_marginBottom="10dp"
+
+        />
+
 </RelativeLayout>
