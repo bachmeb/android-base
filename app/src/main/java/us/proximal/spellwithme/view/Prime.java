@@ -7,13 +7,18 @@ import android.widget.Button;
 import java.util.ArrayList;
 
 import us.proximal.spellwithme.R;
+import us.proximal.spellwithme.controller.def.IPeopleService;
+import us.proximal.spellwithme.controller.svc.PeopleService;
 import us.proximal.spellwithme.model.dao.AnswersDAO;
+import us.proximal.spellwithme.model.dao.PeopleDAO;
 import us.proximal.spellwithme.model.dao.QuestionsDAO;
 import us.proximal.spellwithme.model.dao.WordsDAO;
 import us.proximal.spellwithme.model.def.IAnswersDAO;
+import us.proximal.spellwithme.model.def.IPeopleDAO;
 import us.proximal.spellwithme.model.def.IQuestionsDAO;
 import us.proximal.spellwithme.model.def.IWordsDAO;
 import us.proximal.spellwithme.model.dto.AnswerDTO;
+import us.proximal.spellwithme.model.dto.PersonDTO;
 import us.proximal.spellwithme.model.dto.QuestionDTO;
 import us.proximal.spellwithme.model.dto.WordDTO;
 import us.proximal.spellwithme.utility.DbUtil;
@@ -25,6 +30,7 @@ public class Prime extends BaseActivity {
 
     IWordsDAO daoWords;
     IQuestionsDAO daoQuestions;
+    IPeopleDAO daoPeople;
     ArrayList<WordDTO> words;
 
     Button btnDatabaseExists;
@@ -33,9 +39,11 @@ public class Prime extends BaseActivity {
 
     Button btnPrimeWords;
     Button btnPrimeQuestions;
+    Button btnPrimeMe;
 
     Button btnToastWord;
     Button btnToastQuestion;
+    Button btnToastMe;
 
     Button btnToastWords;
     Button btnToastQuestions;
@@ -53,9 +61,11 @@ public class Prime extends BaseActivity {
 
         btnPrimeWords = (Button) findViewById(R.id.buttonPrimeWords);
         btnPrimeQuestions = (Button) findViewById(R.id.buttonPrimeQuestions);
+        btnPrimeMe = (Button) findViewById(R.id.buttonPrimeMe);
 
         btnToastWord = (Button) findViewById(R.id.buttonPrimeToastWord);
         btnToastQuestion = (Button) findViewById(R.id.buttonPrimeToastQuestion);
+        btnToastMe = (Button) findViewById(R.id.buttonPrimeToastMe);
 
         btnToastWords = (Button) findViewById(R.id.buttonPrimeToastWords);
         btnToastQuestions = (Button) findViewById(R.id.buttonPrimeToastQuestions);
@@ -108,6 +118,15 @@ public class Prime extends BaseActivity {
         );
 
         //attach onClick listener to the button object
+        btnPrimeMe.setOnClickListener(new View.OnClickListener() {
+                                          @Override
+                                          public void onClick(View currentView) {
+                                              primeMe();
+                                          }
+                                      }
+        );
+
+        //attach onClick listener to the button object
         btnToastWord.setOnClickListener(new View.OnClickListener() {
                                             @Override
                                             public void onClick(View currentView) {
@@ -121,6 +140,15 @@ public class Prime extends BaseActivity {
                                                 @Override
                                                 public void onClick(View currentView) {
                                                     toastQuestion();
+                                                }
+                                            }
+        );
+
+        //attach onClick listener to the button object
+        btnToastMe.setOnClickListener(new View.OnClickListener() {
+                                                @Override
+                                                public void onClick(View currentView) {
+                                                    toastMe();
                                                 }
                                             }
         );
@@ -321,6 +349,24 @@ public class Prime extends BaseActivity {
         }
     }
 
+
+    public void toastMe() {
+
+        IPeopleService svcPeople;
+        svcPeople = new PeopleService(this);
+
+        PersonDTO me = new PersonDTO();
+
+        try {
+            me = svcPeople.getMyPersonObject();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        makeToast(this, me.getFirstName() + " " + me.getLastName() + " " + me.getBirthDate() );
+
+    }
+
     public void primeWords() {
 
         //
@@ -393,6 +439,32 @@ public class Prime extends BaseActivity {
         }
         //
         makeToast(this, "Call to PrimeQuestions done!");
+
+    }
+
+    public void primeMe() {
+        //
+        long result = 0;
+
+        //
+        makeToast(this, "Here we go...");
+
+        //This is important. The DAO needs the Context object for DB access
+        daoPeople = new PeopleDAO(this);
+
+        PersonDTO dto = new PersonDTO();
+
+        dto.setFirstName("Brian");
+        dto.setLastName("Bachmeyer");
+        dto.setBirthDate("1-JAN-1970");
+
+        try {
+            result = daoPeople.create(dto);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        makeToast(this, "The result is " + result);
 
     }
 

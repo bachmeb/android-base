@@ -92,7 +92,7 @@
         style="?android:attr/buttonStyleSmall"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Prime Words"
+        android:text="Create Words"
         android:id="@+id/buttonPrimeWords"
 
         android:layout_alignTop="@+id/textPrimeRow2"
@@ -104,12 +104,25 @@
         style="?android:attr/buttonStyleSmall"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Prime Questions"
+        android:text="Create Questions"
         android:id="@+id/buttonPrimeQuestions"
 
 
         android:layout_toRightOf="@+id/buttonPrimeWords"
         android:layout_alignTop="@+id/buttonPrimeWords"
+
+        />
+
+
+    <Button
+        style="?android:attr/buttonStyleSmall"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Create Me"
+        android:id="@+id/buttonPrimeMe"
+
+        android:layout_toRightOf="@+id/buttonPrimeQuestions"
+        android:layout_alignTop="@+id/buttonPrimeQuestions"
 
         />
 
@@ -149,6 +162,19 @@
 
         android:layout_toRightOf="@+id/buttonPrimeToastWord"
         android:layout_alignTop="@+id/buttonPrimeToastWord"
+
+        />
+
+    <Button
+        style="?android:attr/buttonStyleSmall"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Toast Me"
+        android:id="@+id/buttonPrimeToastMe"
+
+
+        android:layout_toRightOf="@+id/buttonPrimeToastQuestion"
+        android:layout_alignTop="@+id/buttonPrimeToastQuestion"
 
         />
 
@@ -204,7 +230,6 @@
         android:layout_alignTop="@+id/buttonPrimeToastQuestions"
 
         />
-
 
 
 </RelativeLayout>

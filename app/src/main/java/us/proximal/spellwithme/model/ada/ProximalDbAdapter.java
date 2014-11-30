@@ -7,6 +7,7 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
 import us.proximal.spellwithme.model.dao.AnswersDAO;
+import us.proximal.spellwithme.model.dao.PeopleDAO;
 import us.proximal.spellwithme.model.dao.QuestionsDAO;
 import us.proximal.spellwithme.model.dao.WordsDAO;
 
@@ -17,7 +18,7 @@ import us.proximal.spellwithme.model.dao.WordsDAO;
 public abstract class ProximalDbAdapter {
 
     public static String DATABASE_NAME = "spellwithme.db";
-    public static final int DATABASE_VERSION = 2;
+    public static final int DATABASE_VERSION = 3;
 
     public static DbHelper dbHelper;
     public static Context appContext;
@@ -63,6 +64,18 @@ public abstract class ProximalDbAdapter {
             + AnswersDAO.GRADE
             + " TEXT );";
 
+    public static final String SQL_PEOPLE = "CREATE TABLE "
+            + PeopleDAO.TABLE_NAME
+            + " ("
+            + PeopleDAO.PRIMARY_KEY
+            + " INTEGER PRIMARY KEY AUTOINCREMENT, "
+            + PeopleDAO.FIRST_NAME
+            + " TEXT, "
+            + PeopleDAO.LAST_NAME
+            + " TEXT, "
+            + PeopleDAO.BIRTH_DATE
+            + " TEXT );";
+
     /*
     Constructor
      */
@@ -83,7 +96,6 @@ public abstract class ProximalDbAdapter {
     }
 
     public void close(){
-        int i = 0;
 
         if(appDatabase.isOpen())
             dbHelper.close();
@@ -103,6 +115,7 @@ public abstract class ProximalDbAdapter {
             db.execSQL(SQL_QUESTIONS);
             db.execSQL(SQL_WORDS);
             db.execSQL(SQL_ANSWERS);
+            db.execSQL(SQL_PEOPLE);
         }
 
         @Override

@@ -9,17 +9,17 @@ import us.proximal.spellwithme.model.dto.PersonDTO;
  */
 public interface IPeopleService {
 
-    long addPerson(PersonDTO dto);
-    long deletePerson(PersonDTO dto);
-    long updatePerson(PersonDTO dto);
+    long addPerson(PersonDTO dto) throws Exception;
+    long deletePerson(PersonDTO dto) throws Exception;
+    long updatePerson(PersonDTO dto) throws Exception;
 
-    ArrayList<PersonDTO> getListOfPeople();
+    ArrayList<PersonDTO> getListOfPeople() throws Exception;
 
-    ArrayList<PersonDTO> getListOfMyStudents();
+    ArrayList<PersonDTO> getListOfMyStudents() throws Exception;
 
-    PersonDTO getOnePersonObject(int key);
+    PersonDTO getOnePersonObject(int key) throws Exception;
 
-    PersonDTO getMyPersonObject();
+    PersonDTO getMyPersonObject() throws Exception;
 
 
 
