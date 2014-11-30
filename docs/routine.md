@@ -23,44 +23,6 @@ public class ThingDTO {
     }
 
 ```
-###Update DbAdapter
-####Add table definition
-```java
-
-    public static final String SQL_QUESTIONS = "CREATE TABLE " + QuestionsDAO.TABLE_NAME + " (" +
-            QuestionsDAO.PRIMARY_KEY + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
-            QuestionsDAO.WORD_ID + " INTEGER, " +
-            QuestionsDAO.WORD + " TEXT, " +
-            QuestionsDAO.DESCRIPTION + " TEXT, " +
-            QuestionsDAO.TEXT + " TEXT, " +
-            QuestionsDAO.TYPE + " TEXT " +
-            ");";
-```
-####Add db.execSQL() statement to onCreate() method
-```java
-        @Override
-        public void onCreate(SQLiteDatabase db) {
-            db.execSQL(SQL_QUESTIONS);
-            db.execSQL(SQL_WORDS);
-            db.execSQL(SQL_ANSWERS);
-        }
-
-```
-####Add db.execSQL() statement to onUpgrade() method
-```java
-        @Override
-        public void onUpgrade(SQLiteDatabase db, int arg1, int arg2) {
-            db.execSQL("DROP TABLE IF EXISTS " + QuestionsDAO.TABLE_NAME);
-            db.execSQL("DROP TABLE IF EXISTS " + WordsDAO.TABLE_NAME);
-            db.execSQL("DROP TABLE IF EXISTS " + AnswersDAO.TABLE_NAME);
-            onCreate(db);
-        }
-```
-####Update database version
-```java
-
-    public static final int DATABASE_VERSION = 3;
-```
 ###Make DAO interface
 ####Define CRUDL methods
 ```java
@@ -166,6 +128,8 @@ public class AnswersDAO extends ProximalDbAdapter implements IAnswersDAO {}
 ```
 ####Implement read() method
 ```java
+
+
     @Override
     public QuestionDTO read(int key) throws Exception {
 
@@ -173,7 +137,8 @@ public class AnswersDAO extends ProximalDbAdapter implements IAnswersDAO {}
         String sql  = "select * from " + TABLE_NAME + " where "+ PRIMARY_KEY +" = '" + key +"' ";
 
         // Run the query
-        Cursor cursor = getReadableDatabase().rawQuery(sql, null);
+        super.open();
+        Cursor cursor = appDatabase.rawQuery(sql, null);
 
         //Test cursor count
         if (cursor.getCount() == 1) {
@@ -195,35 +160,43 @@ public class AnswersDAO extends ProximalDbAdapter implements IAnswersDAO {}
             return null;
         }
     }
-    
+
 ```
 
 
 ####Implement update() method
 ```java
+
     @Override
-    public long update(PersonDTO dto) throws Exception {
+    public long update(RelationshipDTO dto) throws Exception {
 
         long result = 0;
 
-        PersonDTO person;
+        RelationshipDTO relationship;
 
         // Write the query
         String sql  = "update " + TABLE_NAME +
                 " set " +
-                PeopleDAO.FIRST_NAME + " = '" + dto.getFirstName() + "', " +
-                PeopleDAO.LAST_NAME + " = '" + dto.getLastName() + "', " +
-                PeopleDAO.BIRTH_DATE + " = '" + dto.getBirthDate() + "' " +
-                " where "+ PRIMARY_KEY +" = '" + dto.getPersonId() +"' "
+                RelationshipsDAO.PRIMARY_ID + " = '" + dto.getPrimaryId() + "', " +
+                RelationshipsDAO.SECONDARY_ID + " = '" + dto.getSecondaryId() + "', " +
+                RelationshipsDAO.TYPE + " = '" + dto.getType() + "', " +
+                
+                " where "+ PRIMARY_KEY +" = '" + dto.getRelationshipId() +"' "
                 ;
 
-        // Run the query
+        // Open the database
         super.open();
 
+        // Run the query
         Cursor cursor = appDatabase.rawQuery(sql, null);
 
+        // Get the count
         result = cursor.getCount();
 
+        // Close the database
+        super.close();
+        
+        // Return the count
         return result;
 
     }
@@ -307,6 +280,44 @@ public class AnswersDAO extends ProximalDbAdapter implements IAnswersDAO {}
     }
 ```
 
+###Update DbAdapter
+####Add table definition
+```java
+
+    public static final String SQL_QUESTIONS = "CREATE TABLE " + QuestionsDAO.TABLE_NAME + " (" +
+            QuestionsDAO.PRIMARY_KEY + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
+            QuestionsDAO.WORD_ID + " INTEGER, " +
+            QuestionsDAO.WORD + " TEXT, " +
+            QuestionsDAO.DESCRIPTION + " TEXT, " +
+            QuestionsDAO.TEXT + " TEXT, " +
+            QuestionsDAO.TYPE + " TEXT " +
+            ");";
+```
+####Add db.execSQL() statement to onCreate() method
+```java
+        @Override
+        public void onCreate(SQLiteDatabase db) {
+            db.execSQL(SQL_QUESTIONS);
+            db.execSQL(SQL_WORDS);
+            db.execSQL(SQL_ANSWERS);
+        }
+
+```
+####Add db.execSQL() statement to onUpgrade() method
+```java
+        @Override
+        public void onUpgrade(SQLiteDatabase db, int arg1, int arg2) {
+            db.execSQL("DROP TABLE IF EXISTS " + QuestionsDAO.TABLE_NAME);
+            db.execSQL("DROP TABLE IF EXISTS " + WordsDAO.TABLE_NAME);
+            db.execSQL("DROP TABLE IF EXISTS " + AnswersDAO.TABLE_NAME);
+            onCreate(db);
+        }
+```
+####Update database version
+```java
+
+    public static final int DATABASE_VERSION = 3;
+```
 ###Make Service interface
 ```java
 
@@ -318,8 +329,8 @@ public interface IThingsService {
 ####Define methods to match UI buttons
 ```java
 
-    public void createThing();
-    public void deleteThing();
+    public void createThing() throws Exception;
+    public void deleteThing() throws Exception;
 
 ```
 
@@ -358,10 +369,10 @@ public class ThingsService implements IThingsService{
 ####Implement interface methods
 ```java
     @Override
-    public void createThing() {
+    public void createThing() throws Exception {
     }
     @Override
-    public void deleteThing() {
+    public void deleteThing() throws Exception {
     }
 ```
 
