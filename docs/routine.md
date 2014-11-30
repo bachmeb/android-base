@@ -128,6 +128,8 @@ public class AnswersDAO extends ProximalDbAdapter implements IAnswersDAO {}
 ```
 ####Implement read() method
 ```java
+
+
     @Override
     public QuestionDTO read(int key) throws Exception {
 
@@ -135,7 +137,8 @@ public class AnswersDAO extends ProximalDbAdapter implements IAnswersDAO {}
         String sql  = "select * from " + TABLE_NAME + " where "+ PRIMARY_KEY +" = '" + key +"' ";
 
         // Run the query
-        Cursor cursor = getReadableDatabase().rawQuery(sql, null);
+        super.open();
+        Cursor cursor = appDatabase.rawQuery(sql, null);
 
         //Test cursor count
         if (cursor.getCount() == 1) {
@@ -157,7 +160,7 @@ public class AnswersDAO extends ProximalDbAdapter implements IAnswersDAO {}
             return null;
         }
     }
-    
+
 ```
 
 
