@@ -56,7 +56,11 @@ public class ThingDTO {
             onCreate(db);
         }
 ```
+####Update database version
+```java
 
+    public static final int DATABASE_VERSION = 3;
+```
 ###Make DAO interface
 ####Define CRUDL methods
 ```java
