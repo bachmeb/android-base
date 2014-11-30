@@ -23,7 +23,8 @@ public class ThingDTO {
     }
 
 ```
-###Add table definition to DbAdapter
+###Update DbAdapter
+####Add table definition
 ```java
 
     public static final String SQL_QUESTIONS = "CREATE TABLE " + QuestionsDAO.TABLE_NAME + " (" +
@@ -35,7 +36,7 @@ public class ThingDTO {
             QuestionsDAO.TYPE + " TEXT " +
             ");";
 ```
-###Add db.execSQL() statement to onCreate() method
+####Add db.execSQL() statement to onCreate() method
 ```java
         @Override
         public void onCreate(SQLiteDatabase db) {
@@ -45,7 +46,7 @@ public class ThingDTO {
         }
 
 ```
-###Add db.execSQL() statement to onUpgrade() method
+####Add db.execSQL() statement to onUpgrade() method
 ```java
         @Override
         public void onUpgrade(SQLiteDatabase db, int arg1, int arg2) {
