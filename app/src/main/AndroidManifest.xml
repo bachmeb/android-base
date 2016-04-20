@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="us.proximal.spellwithme" >
+    package="com.bachmeb.basepkg" >
 
     <!-- NEED TO ADD TO BE ABLE TO GO ONLINE AND GET DATA -->
     <uses-permission android:name="android.permission.INTERNET" />
@@ -24,44 +24,8 @@
             android:label="@string/title_activity_base" >
         </activity>
         <activity
-            android:name=".view.Spell"
-            android:label="@string/title_activity_spell" >
-        </activity>
-        <activity
-            android:name=".view.Read"
-            android:label="@string/title_activity_read" >
-        </activity>
-        <activity
-            android:name=".view.Prime"
-            android:label="@string/title_activity_test" >
-        </activity>
-        <activity
-            android:name=".view.MyActivity"
-            android:label="@string/title_activity_my" >
-        </activity>
-        <activity
-            android:name=".view.People"
-            android:label="@string/title_activity_people" >
-        </activity>
-        <activity
-            android:name=".view.Me"
-            android:label="@string/title_activity_me" >
-        </activity>
-        <activity
-            android:name=".view.MyStudents"
-            android:label="@string/title_activity_my_students" >
-        </activity>
-        <activity
-            android:name=".view.MeEdit"
-            android:label="@string/title_activity_me_edit" >
-        </activity>
-        <activity
-            android:name=".view.MyStudentsAdd"
-            android:label="@string/title_activity_my_students_add" >
-        </activity>
-        <activity
-            android:name=".view.Student"
-            android:label="@string/title_activity_student" >
+            android:name=".view.SecondView"
+            android:label="@string/title_activity_second_view" >
         </activity>
     </application>
 

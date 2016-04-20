@@ -1,19 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <string name="app_name">SpellWithMe</string>
+    <string name="app_name">Bachmeb Base</string>
     <string name="hello_world">Hello world!</string>
     <string name="action_settings">Settings</string>
     <string name="title_activity_base">Base</string>
-    <string name="title_activity_spell">Spell</string>
-    <string name="title_activity_read">Read</string>
-    <string name="title_activity_test">Prime</string>
-    <string name="title_activity_my">MyActivity</string>
     <string name="title_activity_people">People</string>
-    <string name="title_activity_me">Me</string>
-    <string name="title_activity_my_students">MyStudents</string>
-    <string name="title_activity_me_edit">MeEdit</string>
-    <string name="title_activity_my_students_add">MyStudentsAdd</string>
-    <string name="title_activity_student">Student</string>
+    <string name="title_activity_second_view">SecondView</string>
 
 </resources>
