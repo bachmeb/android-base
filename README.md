@@ -2,8 +2,8 @@
 
 This is my base Android project, used to start new projects, coding with Android Studio. 
 
-## Reference
-* https://www.youtube.com/watch?v=mTTjxoKGKGU
+## References
+
 
 ### Setup
 * Create a local repo directory
